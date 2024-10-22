@@ -1,0 +1,408 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, shadesOfPurple } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.code,
+  ...themes.prism
+}
+
+<Invert>
+
+<Box p={100}>
+
+# Promises
+
+A promise (or a thenable) is a way to handle asynchronous actions.
+
+It is a promise to do some action or send some data at some future time.
+
+Other languages may use the word future, delay, or deferred for concepts similar
+to JavaScript promises.
+
+</Box>
+
+</Invert>
+
+---
+
+<CodeSurfer theme={github}>
+
+```js title="HTTP request with superagent"
+const response = await request.get('https://rickandmortyapi.com/api/character')
+const characters = response.body.results;
+...
+```
+
+```diff 1[24:79] title="HTTP request with superagent" subtitle="this is a promise"
+```
+
+```diff 1[24:79] title="HTTP request with superagent" subtitle="it promises to return some information from an API at some time in the future"
+```
+
+```diff 1[24:79] title="HTTP request with superagent" subtitle="we want to wait for that information before moving on"
+```
+
+```diff 1[18:22] title="HTTP request with superagent" subtitle="so we await the promise"
+```
+
+```diff 1[18:79] title="HTTP request with superagent" subtitle="awaiting a promise makes it so the following lines will not execute until the promise resolves"
+```
+
+```diff 1[7:14] title="HTTP request with superagent" subtitle="when the promise resolves its fulfilled value is set to the const"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={github}>
+
+```js title="PostgreSQL Query"
+const data = await client.query('SELECT * FROM dogs');
+const rows = data.rows;
+...
+```
+
+```diff 1[20:53] title="PostgreSQL Query" subtitle="this is a promise"
+```
+
+```diff 1[20:53] title="PostgreSQL Query" subtitle="it promises to return some information from a database at some time in the future"
+```
+
+```diff 1[24:79] title="PostgreSQL Query" subtitle="we want to wait for that information before moving on"
+```
+
+```diff 1[14:18] title="PostgreSQL Query" subtitle="so we await the promise"
+```
+
+```diff 1[14:53] title="PostgreSQL Query" subtitle="awaiting a promise makes it so the following lines will not execute until the promise resolves"
+```
+
+```diff 1[7:10] title="PostgreSQL Query" subtitle="when the promise resolves its fulfilled value is set to the const"
+```
+
+</CodeSurfer>
+
+---
+
+<Invert>
+
+<Box p={100}>
+
+## Why Promises?
+
+### The Event Loop
+
+</Box>
+
+</Invert>
+
+---
+
+<Invert>
+
+![Event Loop](https://alchemycodelab.s3.us-west-2.amazonaws.com/Event%20Loop.png)
+
+</Invert>
+
+---
+
+<Invert>
+
+<Split>
+
+![Event Loop](https://alchemycodelab.s3.us-west-2.amazonaws.com/Event%20Loop.png)
+
+<CodeSurfer theme={github}>
+
+```js title="PostgreSQL Query"
+const data = await client.query('SELECT * FROM dogs');
+...
+```
+
+```diff 1[20:53] title="PostgreSQL Query" subtitle="register callback. wait to get data back from the database"
+````
+
+```diff 1[14:18] title="PostgreSQL Query" subtitle="wait for the database to respond"
+````
+
+```diff 1[7:10] title="PostgreSQL Query" subtitle="on complete load the data back into javascript"
+````
+
+```diff 2 title="PostgreSQL Query" subtitle="continue executing the program in the event loop"
+````
+
+</CodeSurfer>
+
+</Split>
+
+</Invert>
+
+---
+
+### States
+
+<Split>
+
+<Steps>
+
+* `pending` - initial state of a promise
+* `fulfilled` - promise successfully resolved
+* `rejected` - promise completed with failure
+
+</Steps>
+
+![Promise States](https://alchemycodelab.s3-us-west-2.amazonaws.com/Promise+States.png)
+
+</Split>
+
+---
+
+### Instance methods
+
+<Steps>
+
+* `then` - takes a callback that will get invoked on a fulfilled promise
+* `catch` - takes a callback that will get invoked on a rejected promise
+* `finally` - takes a callback that will get invoked when a promise finishes
+
+</Steps>
+
+---
+
+## Promise chains vs Async/Await
+
+### The problem
+
+---
+
+### Fetching X-File Character Names
+
+Using the [x-files api](https://xfiles-api.herokuapp.com)
+we want to get an array of character names.
+
+```json
+{
+  "quantity": 3,
+  "results": [
+    {
+      "name": "Absalom",
+      "gender": "Male",
+      "status": "Deceased",
+      "born": null,
+      "occupation": "Cult leader",
+      "rank": null,
+      "affiliations": null,
+      "portrayedby": "Judson Scott",
+      "image": "...",
+      "description": "...",
+      "categories": [
+        "Criminals",
+        "Deceased people"
+      ]
+    }
+  ]
+}
+```
+
+---
+
+<CodeSurferColumns themes={[github, github, shadesOfPurple]}>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+
+</section>
+
+```js title="Promise Chains" subtitle="setup"
+const fetchCharacters = () => {
+
+}
+```
+
+```js title="Async/Await" subtitle="setup"
+const fetchCharacters = async() => {
+
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+
+</section>
+
+```js title="Promise Chains" subtitle="fetch from api"
+const fetchCharacters = () => {
+  return fetch(url)
+}
+```
+
+```js title="Async/Await" subtitle="await fetch since fetch is a promise"
+const fetchCharacters = async() => {
+  await fetch(url);
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+
+    })
+}
+```
+
+```js title="Async/Await" subtitle="assign res to the awaited value"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+
+</section>
+
+```js title="Promise Chains"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+      return res.json();
+    })
+}
+```
+
+```js title="Async/Await"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const json = await res.json();
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+* munge the json into a shape we like (an array of character names)
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+      return res.json();
+    })
+    .then(json => {
+      return json.results.map(character => character.name);
+    });
+}
+```
+
+```js title="Async/Await" subtitle="return a value from the async function"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const json = await res.json();
+  const characterNames = json.results.map(character => character.name);
+
+  return characterNames;
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+* munge the json into a shape we like (an array of character names)
+* refactor to make pretty
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => res.json())
+    .then(({ results }) => results.map(({ name }) => name));
+}
+```
+
+```js title="Async/Await" subtitle="return a value from the async function"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const { results } = await res.json();
+  
+  return results.map(({ name }) => name);
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## Using `fetchCharacters`
+
+In either case (promise chain or async/await), the `fetchCharacters` function returns a promise
+
+```js
+fetchCharacters()
+  .then(characters => console.log(characters));
+```
+
+---

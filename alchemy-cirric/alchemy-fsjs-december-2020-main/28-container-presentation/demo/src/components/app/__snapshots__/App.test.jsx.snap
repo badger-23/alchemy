@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component renders App 1`] = `
+<DocumentFragment>
+  <label
+    for="bgColor"
+  >
+    Background Color
+  </label>
+  <input
+    id="bgColor"
+    name="bgColor"
+    type="color"
+    value="#FF0000"
+  />
+  <label
+    for="fgColor"
+  >
+    Foreground Color
+  </label>
+  <input
+    id="fgColor"
+    name="fgColor"
+    type="color"
+    value="#0000FF"
+  />
+  <label
+    for="text"
+  >
+    Text
+  </label>
+  <input
+    id="text"
+    name="text"
+    type="text"
+    value=""
+  />
+  <div
+    data-testid="display"
+    style="color: rgb(0, 0, 255); background-color: rgb(255, 0, 0); height: 50rem;"
+  >
+    <p
+      style="font-size: 5rem;"
+    />
+  </div>
+</DocumentFragment>
+`;

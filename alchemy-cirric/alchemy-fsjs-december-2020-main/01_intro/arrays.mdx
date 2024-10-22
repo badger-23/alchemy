@@ -1,0 +1,72 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, shadesOfPurple } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Arrays
+
+---
+
+## In Memory
+
+In memory arrays are stored as a continuous block of memory addresses
+
+![](https://alchemycodelab.s3-us-west-2.amazonaws.com/number_array.png)
+
+---
+
+## In Memory
+
+<Box p={100}>
+
+Because arrays are a continuous block of memory, when we create an array
+our computers have to find a block of continuous memory large enough to
+store our array.
+
+In many other languages (like C/C++) this results in the developer having
+to specify the maximum capacity of the array.
+
+```cpp
+string fruits[4] = {"apple", "banana", "pear", "grapes"};
+```
+
+</Box>
+
+---
+
+## Dynamic Arrays
+
+In JavaScript we have access to **dynamic** arrays. These are arrays who's
+capacity automatically increases as needed.
+
+![](https://alchemycodelab.s3-us-west-2.amazonaws.com/dynamic_number_array.png)
+
+---
+
+## Dynamic Arrays
+
+<Split>
+
+<Box p={100}>
+
+Typically, this is accomplished by:
+
+1. Creating a new array with doubling the capacity
+of the original array whenever the original capacity is exceeded.
+
+1. Then each item in the original array is copied over to the new array.
+
+1. Finally, the new item is added to the new array.
+
+</Box>
+
+![](https://alchemycodelab.s3-us-west-2.amazonaws.com/dynamic_number_array_double.png)
+
+</Split>
+
+---

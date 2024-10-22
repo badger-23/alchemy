@@ -1,0 +1,327 @@
+import { themes } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+<Invert>
+
+# Container and Presentational Component Pattern
+
+### *The Classic*
+
+</Invert>
+
+---
+
+<Box p={200}>
+
+### Container Components
+
+As a rule of thumb, container components are stateful (class)
+components which deal how things work. They are the owners of
+state and provide that state to other components.
+
+</Box>
+
+---
+
+<Box p={200}>
+
+### Presentational Components
+
+As a rule of thumb, presentational components are stateless
+functional components which deal with how things look. They
+are passed props that what they display.
+
+</Box>
+
+---
+
+import BigCharacters from '../components/characters/BigCharacters.js';
+
+<CodeSurferColumns themes={[github, github, vsDark]}>
+
+<Step>
+
+<Box>
+
+<BigCharacters />
+
+</Box>
+
+```js showNumbers title="One Big Component"
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+export default class Character extends Component {
+  state = {
+    characters: []
+  }
+
+  componentDidMount() {
+    fetch('https://rickandmortyapi.com/api/character/')
+      .then(res => res.json())
+      .then(({ results: characters }) => characters.map(character => ({
+        id: character.id,
+        name: character.name,
+        status: character.status,
+        species: character.species,
+        image: character.image
+      })))
+      .then(characters => this.setState({ characters }));
+  }
+
+  render() {
+    const { characters } = this.state;
+    const characterElements = characters.map(character => (
+      <li key={character.id}>
+        <h2>{character.name} - {character.species}</h2>
+        <p>{character.status}</p>
+        <img src={character.image} />
+      </li>
+    ))
+
+    return (
+      <>
+        <h1>Characters</h1>
+        <ul>
+          {characterElements}
+        </ul>
+      </>
+    )
+  }
+}
+```
+
+</Step>
+
+<Step>
+
+<Box>
+
+<BigCharacters />
+
+</Box>
+
+```diff subtitle="this component contains multiple layers"
+```
+
+</Step>
+
+<Step>
+
+<Box>
+
+<BigCharacters />
+
+</Box>
+
+```diff 12:18 title="service/model layer" subtitle="how the data looks"
+```
+
+</Step>
+
+<Step>
+
+<Box>
+
+<BigCharacters />
+
+</Box>
+
+```diff 10,19 title="container/controller layer" subtitle="fetch the data and store"
+```
+
+</Step>
+
+<Step>
+
+<Box>
+
+<BigCharacters />
+
+</Box>
+
+```diff 23:39 title="presentation/view layer" subtitle="display the data"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+
+---
+
+<CodeSurferColumns themes={[vsDark, github, vsDark]}>
+
+<Step>
+
+```js showNumbers title="One Big Component"
+import React, { Component } from 'react';
+
+export default class Character extends Component {
+  state = {
+    characters: []
+  }
+
+  componentDidMount() {
+    fetch('https://rickandmortyapi.com/api/character/')
+      .then(res => res.json())
+      .then(({ results: characters }) => characters.map(character => ({
+        id: character.id,
+        name: character.name,
+        status: character.status,
+        species: character.species,
+        image: character.image
+      })))
+      .then(characters => this.setState({ characters }));
+  }
+
+  render() {
+    const { characters } = this.state;
+    const characterElements = characters.map(character => (
+      <li key={character.id}>
+        <h2>{character.name} - {character.species}</h2>
+        <p>{character.status}</p>
+        <img src={character.image} />
+      </li>
+    ))
+
+    return (
+      <>
+        <h1>Characters</h1>
+        <ul>
+          {characterElements}
+        </ul>
+      </>
+    )
+  }
+}
+```
+
+```js showNumbers title="Presentational Component"
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const Characters = ({ characters }) => {
+  const characterElements = characters.map(character => (
+    <li key={character.id}>
+      <h2>{character.name} - {character.species}</h2>
+      <p>{character.status}</p>
+      <img src={character.image} />
+    </li>
+  ));
+
+  return (
+    <>
+      <h1>Characters</h1>
+      <ul>
+        {characterElements}
+      </ul>
+    </>
+  );
+};
+
+Characters.propTypes = {
+  characters: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired
+    species: PropTypes.string.isRequired
+    status: PropTypes.string.isRequired
+    image: PropTypes.string.isRequired
+  })).isRequired
+};
+
+export default Characters;
+```
+
+```js showNumbers title="Container Component"
+import React, { Component } from 'react';
+
+export default class Character extends Component {
+  state = {
+    characters: []
+  }
+
+  componentDidMount() {
+    fetch('https://rickandmortyapi.com/api/character/')
+      .then(res => res.json())
+      .then(({ results: characters }) => characters.map(character => ({
+        id: character.id,
+        name: character.name,
+        status: character.status,
+        species: character.species,
+        image: character.image
+      })))
+      .then(characters => this.setState({ characters }));
+  }
+
+  render() {
+    const { characters } = this.state;
+
+    return (
+      <Characters characters={characters} />
+    )
+  }
+}
+```
+
+</Step>
+
+<Step subtitle="functionality and business logic goes into containers">
+
+```diff 9:18
+```
+
+```diff
+```
+
+```diff 9:18 
+```
+
+</Step>
+
+<Step subtitle="markup goes into presentational components">
+
+```diff 22:38
+```
+
+```diff 4:21
+```
+
+```diff
+```
+
+</Step>
+
+<Step subtitle="presentational components are used inside of containers">
+
+```diff
+```
+
+```diff
+```
+
+```diff 25
+```
+
+</Step>
+
+<Step subtitle="state from a container is passed to a presentational component via props">
+
+```diff
+```
+
+```diff 4[21:34]
+```
+
+```diff 5,25[19:41]
+```
+
+</Step>
+
+</CodeSurferColumns>

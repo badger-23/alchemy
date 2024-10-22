@@ -1,0 +1,331 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.yellow,
+  ...themes.prism
+}
+
+# Clean Code
+
+---
+
+> There are two parts to learning craftsmanship: knowledge and work.You must gain
+> the knowledge of principles, patterns, practices, and heuristics that a craftsman knows, and
+> you must also grind that knowledge into your fingers, eyes, and gut by working hard and
+> practicing.
+
+...
+
+> Learning to write clean code is hard work. It requires more than just the knowledge of
+> principles and patterns. You must sweat over it. You must practice it yourself, and watch
+> yourself fail. You must watch others practice it and fail. You must see them stumble and
+> retrace their steps. You must see them agonize over decisions and see the price they pay for
+> making those decisions the wrong way.
+>
+> -- <cite>_Clean Code_ by Robert C. Martin</cite>
+
+---
+
+<Invert>
+
+## Naming
+
+> The name of a variable, function, or class, should answer all the big questions.
+> It should tell you why it exists, what it does, and how it is used.
+>
+_Clean Code_ by Robert C. Martin (Uncle Bob) 
+
+<Steps>
+
+* pronounceable
+* without abbreviation
+* use searchable names
+* no types in names
+
+</Steps>
+
+</Invert>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js title="Naming: Pronounceable" subtitle="gl is not pronouncable and doesn't offer the reader any value"
+const gl = ['hello', 'hi', 'hey'];
+```
+
+```js title="Naming: Pronounceable" subtitle="use greetings instead"
+const greetings = ['hello', 'hi', 'hey'];
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```jsx title="Naming: Without Abbreviation" subtitle="What's this component for?"
+expont default class WTFViz extends React.Component {
+  render() {
+    const { ct, ts } = this.props;
+
+    return (
+      <h2>{ct}</h2>
+      <Chart data={ts} />
+    )
+  }
+}
+```
+
+```diff 1[22:24] title="Naming: Without Abbreviation" subtitle="Is WTF Wisconsin Tourism Federation?"
+```
+
+```diff 3[13:14] title="Naming: Without Abbreviation" subtitle="Then is ct county?"
+```
+
+```diff 3[13:14] title="Naming: Without Abbreviation" subtitle="count?"
+```
+
+```diff 3[17:18] title="Naming: Without Abbreviation" subtitle="Is ts tourists?"
+```
+
+```diff 1[22:24] title="Naming: Without Abbreviation" subtitle="Or is WTF Wednesday, Thursday, Friday?"
+```
+
+```diff 1[22:24] title="Naming: Without Abbreviation" subtitle="Or is WTF What's This For?"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js title="Naming: Searchable" subtitle="how would you find this variable in a search?"
+const foo = [{ name: 'spot', age: 5, weight: '20 lbs' }];
+```
+
+```js title="Naming: Searchable" subtitle="Rename to dogs so you can search for the name."
+const dogs = [{ name: 'spot', age: 5, weight: '20 lbs' }]
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js title="Naming: No Types" subtitle="Adding types to variable names doesn't add information"
+const fooArrOfStr = ['hello', 'hi', 'hey'];
+```
+
+```js title="Naming: No Types" subtitle="If the variable is properly named the type is infered"
+const greatings = ['hello', 'hi', 'hey'];
+```
+
+</CodeSurfer>
+
+---
+
+## functions
+
+<Steps>
+
+* should do one thing
+* should be small
+* should have minimal indentation
+* block within statements should be one line
+* no side effects
+* should either answer something or do something (not both)
+* minimal arguments (niladic, monadic, dyadic, triadic, polyadic)
+
+</Steps>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js showNumbers title="Functions: Should do one thing" subtitle="This function is doing a bunch of things"
+const createTodo = async(todo) => {
+  const token = localStorage.getItem('TOKEN');
+  try {
+    const { body } = await request
+      .post(`${URL}/api/todos`, todo)
+      .set('Authorization', token);
+    return body;
+  } catch({ message: error }) {
+    return { error };
+  }
+}
+```
+
+```diff 2 showNumbers title="Functions: Should do one thing" subtitle="It's getting a token from localStorage"
+```
+
+```diff 4:6 showNumbers title="Functions: Should do one thing" subtitle="It's making an HTTP request"
+```
+
+```diff 3,8 showNumbers title="Functions: Should do one thing" subtitle="It's setting up error handling"
+```
+
+```js 1,4 showNumbers title="Functions: Should do one thing" subtitle="break the token logic into its own function"
+conts getToken = localStorage.getItem('TOKEN');
+
+const createTodo = async(todo) => {
+  const token = getToken();
+  try {
+    const { body } = await request
+      .post(`${URL}/api/todos`, todo)
+      .set('Authorization', token);
+    return body;
+  } catch({ message: error }) {
+    return { error };
+  }
+}
+```
+
+```js 2:8,13 showNumbers title="Functions: Should do one thing" subtitle="move the request logic into its own function"
+conts getToken = localStorage.getItem('TOKEN');
+
+const postRequest = async(path, requestBody) => {
+  const token = getToken();
+  const { body } = await request
+    .post(`${URL}${path}`, requestBody)
+    .set('Authorization', token);
+  return body; 
+};
+
+const createTodo = async(todo) => {
+  try {
+    return postRequest('/api/todos', todo);
+  } catch({ message: error }) {
+    return { error };
+  }
+};
+```
+
+```js 2:7,12 showNumbers title="Functions: Should do one thing" subtitle="make postRequest more generic"
+conts getToken = localStorage.getItem('TOKEN');
+
+const makeRequest = async({ path, method, requestBody = null }) => {
+  const token = getToken();
+  const { body } = await request[method](`${URL}${path}`, requestBody)
+      .set('Authorization', token);
+  return body; 
+};
+
+const createTodo = async(todo) => {
+  try {
+    return makeRequest({ path: '/api/todos', method: 'post', requestBody: todo });
+  } catch({ message: error }) {
+    return { error };
+  }
+};
+```
+
+```js 11,13,19 showNumbers title="Functions: Should do one thing" subtitle="move error handling to its own function"
+conts getToken = localStorage.getItem('TOKEN');
+
+const makeRequest = async({ path, method, requestBody = null }) => {
+  const token = getToken();
+  const { body } = await request[method](`${URL}${path}`, requestBody)
+      .set('Authorization', token);
+  return body; 
+};
+
+const makeRequestWithErrors = async(requestInfo) => {
+  try {
+    return makeRequest(requestInfo)
+  } catch({ message: error }) {
+    return { error };
+  }
+}
+
+const createTodo = async(todo) =>
+  makeRequestWithErrors({ path: '/api/todos', method: 'post', requestBody: todo });;
+```
+
+```js 18:28,30 showNumbers title="Functions: Should do one thing" subtitle="create request helper functions"
+conts getToken = localStorage.getItem('TOKEN');
+
+const makeRequest = async({ path, method, requestBody = null }) => {
+  const token = getToken();
+  const { body } = await request[method](`${URL}${path}`, requestBody)
+      .set('Authorization', token);
+  return body; 
+};
+
+const makeRequestWithErrors = async(requestInfo) => {
+  try {
+    return makeRequest(requestInfo)
+  } catch({ message: error }) {
+    return { error };
+  }
+}
+
+const post = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, requestBody, method: 'post' });
+
+const get = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, method: 'get' });
+
+const put = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, requestBody, method: 'put' });
+
+const del = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, method: 'delete' });
+
+const createTodo = async(todo) => post({ path: '/api/todos', requestBody: todo });
+```
+
+```js 31:34 showNumbers title="Functions: Should do one thing" subtitle="now its easier to add new functionality"
+conts getToken = localStorage.getItem('TOKEN');
+
+const makeRequest = async({ path, method, requestBody = null }) => {
+  const token = getToken();
+  const { body } = await request[method](`${URL}${path}`, requestBody)
+      .set('Authorization', token);
+  return body; 
+};
+
+const makeRequestWithErrors = async(requestInfo) => {
+  try {
+    return makeRequest(requestInfo)
+  } catch({ message: error }) {
+    return { error };
+  }
+}
+
+const post = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, requestBody, method: 'post' });
+
+const get = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, method: 'get' });
+
+const put = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, requestBody, method: 'put' });
+
+const del = ({ path, requestBody }) =>
+  makeRequestWithErrors({ path, method: 'delete' });
+
+const createTodo = async(todo) => post({ path: '/api/todos', requestBody: todo });
+const fetchTodos = async() => get({ path: '/api/todos' });
+const fetchTodoById = async(id) => get({ path: `/api/todos/${id}` });
+const updateTodo = async(todo) => get({ path: '/api/todos', requestBody: todo });
+const deleteTodoById = async(id) => get({ path: `/api/todos/${id}` });
+```
+
+</CodeSurfer>
+
+---
+
+<Invert>
+
+![doing sotfware development](https://alchemycodelab.s3.us-west-2.amazonaws.com/doingSoftwareDevelopment.jpg)
+
+</Invert>
+
+---

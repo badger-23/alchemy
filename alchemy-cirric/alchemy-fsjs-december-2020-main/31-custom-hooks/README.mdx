@@ -1,0 +1,164 @@
+import { themes } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Custom Hooks 
+
+## Containers as Hooks
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+</Box>
+
+```jsx
+import { useState, useEffect } from 'react';
+import { getCharacters } from '../services/charactersApi';
+
+export const useCharacters = (page = 1) => {
+  const [characters, setCharacters] = useState([]);
+
+  useEffect(() => {
+    getCharacters(page)
+      .then(fetchedCharacters => setCharacters(fetchedCharacters));
+  }, [page]);
+
+  return characters;
+}
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+
+</Box>
+
+```diff 4[14:26]
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+* Manage their own state internally
+
+</Box>
+
+```diff 5
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+* Manage their own state internally
+* Have access to the react cycle
+
+</Box>
+
+```diff 7:10
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+* Manage their own state internally
+* Have access to the react cycle
+* Export data, methods, or both
+
+</Box>
+
+```diff 12
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+* Manage their own state internally
+* Have access to the react cycle
+* Export data, methods, or both
+* Used in functional components
+
+</Box>
+
+```jsx showNumbers
+import React from 'react';
+import Characters from '../components/characters/Characters';
+import { useCharacters } from '../hooks/characters'
+
+const AllCharacters = () => {
+  const characters = useCharacters()
+
+  return (
+    <Characters characters={characters} />
+  );
+};
+
+export default AllCharacters;
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+## Custom Hooks
+
+* Use the `useXxxx()` naming convention
+* Manage their own state internally
+* Export data, methods, or both
+* Have access to the react cycle
+* Used in functional components
+
+</Box>
+
+```diff 3,6
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

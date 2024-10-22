@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rick and Morty App displays a character detail page 1`] = `
+<div>
+  <a
+    href="/"
+  >
+    <h2>
+      Go Back
+    </h2>
+  </a>
+  <figure
+    aria-label="character"
+    class="character"
+  >
+    <img
+      alt="Rick Sanchez"
+      class="characterImage"
+      src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+    />
+    <figcaption>
+      <h3>
+        Rick Sanchez
+      </h3>
+      <p>
+        Human
+      </p>
+      <p>
+        Status: 
+        Alive
+      </p>
+      <p>
+        Origin: 
+        Earth (C-137)
+      </p>
+      <p>
+        Current Location: 
+        Earth (Replacement Dimension)
+      </p>
+    </figcaption>
+  </figure>
+</div>
+`;

@@ -1,0 +1,124 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+## ES6 Classes
+
+> Classes are a template for creating objects.
+>
+> -- <cite>[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)</cite>
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```jsx showNumbers title="Classes" subtitle="classes are object templates"
+class Pokemon extends React.component {
+  render() {
+    const { name, image } = this.props;
+    return (
+      <figure>
+        <img src={imgae} alt={name} />
+        <figcaption>{name}</figcaption>
+      </figure>
+    )
+  }
+}
+```
+
+```diff 5:8 showNumbers title="Classes" subtitle="here we have a template that can be used to reliable create a figure"
+```
+
+```js showNumbers title="Classes" subtitle="let's create a dog template"
+class Dog {
+
+}
+```
+
+```js 2:4 showNumbers title="Classes" subtitle="a dog has a name, age, and weight"
+class Dog {
+  name;
+  age;
+  weight;
+}
+```
+
+```js 6:10 showNumbers title="Classes" subtitle="when we construct a new Dog we want to set name, age, weight"
+class Dog {
+  name;
+  age;
+  weight;
+
+  constructor(name, age, weight) {
+    this.name = name;
+    this.age = age;
+    this.weight = weight;
+  }
+}
+```
+
+```js 13 showNumbers title="Classes" subtitle="we can construct a new dog"
+class Dog {
+  name;
+  age;
+  weight;
+
+  constructor(name, age, weight) {
+    this.name = name;
+    this.age = age;
+    this.weight = weight;
+  }
+}
+
+const spot = new Dog('spot', 5, '20 lbs');
+```
+
+```js 14:16 showNumbers title="Classes" subtitle="our new dog has a name, age, and weight"
+class Dog {
+  name;
+  age;
+  weight;
+
+  constructor(name, age, weight) {
+    this.name = name;
+    this.age = age;
+    this.weight = weight;
+  }
+}
+
+const spot = new Dog('spot', 5, '20 lbs');
+console.log(spot.name);
+console.log(spot.age);
+console.log(spot.weight);
+```
+
+```js 12:14,18 showNumbers title="Classes" subtitle="we can add methods to our template"
+class Dog {
+  name;
+  age;
+  weight;
+
+  constructor(name, age, weight) {
+    this.name = name;
+    this.age = age;
+    this.weight = weight;
+  }
+
+  speak() {
+    console.log(`Woof, I'm ${this.name}`)
+  }
+}
+
+const spot = new Dog('spot', 5, '20 lbs');
+spot.speak(); // prints Woof, I'm spot
+```
+
+</CodeSurfer>
+
+---

@@ -1,0 +1,11 @@
+.CharacterList {
+  display: flex;
+}
+
+.light {
+  background-color: white;
+}
+
+.dark {
+  background-color: black;
+}

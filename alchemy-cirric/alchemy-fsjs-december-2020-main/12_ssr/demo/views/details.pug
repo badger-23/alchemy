@@ -1,0 +1,9 @@
+extends _layout.pug
+
+block content
+  h2 Espionage Id #{espionage.id}
+  p Meeting Id: #{espionage.meetingId}
+  p Complete: #{espionage.complete}
+  p Notify Text: #{espionage.notify}
+  p Duration: #{espionage.durationInSeconds}
+  audio(controls, src=espionage.recordingUrl)

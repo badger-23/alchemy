@@ -1,0 +1,217 @@
+import { themes } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Context API
+
+---
+
+<Box p={500}>
+
+## Global State
+
+> Context is designed to share data that can be considered “global” for a tree of React components,
+> such as the current authenticated user, theme, or preferred language
+
+</Box>
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+<Box p={200}>
+
+Normally, data is passed from one component to another via props.
+
+</Box>
+
+```js
+import React from 'react';
+
+const Home = () => (
+  <Header title="The Home Page" />
+);
+
+const Header = ({ title }) => (
+  <h1>{title}</h1>
+);
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+Normally, data is passed from one component to another via props.
+
+</Box>
+
+```diff 4[11:30],7[17:25] subtitle="One Component sends information and another recieves it"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## React Context
+
+The React Context API is an alternative way to pass data between components.
+With the Context API information can be shared between components without having
+to explicitly pass props.
+
+---
+
+## Creating Context
+
+```js
+import React from 'react';
+
+export const SomeContext = React.createContext();
+```
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+<Box p={200}>
+
+A Context Provider provides a context value to all of its children
+
+</Box>
+
+```js showNumbers
+import React, { useState } from 'react';
+
+export const SomeContext = React.createContext();
+
+export const SomeContextProvider = ({ children }) => {
+  const [text, setText] = useState('');
+
+  return (
+    <SomeContext.Provider value={{ text, setText }}>
+      {children}
+    </SomeContext.Provider>
+  );
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+A Context Provider provides a context value to all of its children
+
+</Box>
+
+```diff 6 subtitle="This provider creates state"
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+A Context Provider provides a context value to all of its children
+
+</Box>
+
+```diff 9[27:51] subtitle="And provides that state as context to its children"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+<Box p={200}>
+
+A Context Consumer can the use the value provided by a Context Provider
+as long as it is a child of that Provider.
+
+</Box>
+
+```js showNumbers
+import React from 'react';
+import { SomeContext, SomeContextProvider } from '../providers/SomeContextProvider';
+
+const Header = () => {
+  const { text } = useContext(SomeContext);
+
+  return <h1>{text}</h1>
+}
+
+export const Home = () => (
+  <SomeContextProvider>
+    <Header />
+  </SomeContextProvider>
+)
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+A Context Consumer can the use the value provided by a Context Provider
+as long as it is a child of that Provider.
+
+</Box>
+
+```diff 2 subtitle="Import the Context and the Context Provider"
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+A Context Consumer can the use the value provided by a Context Provider
+as long as it is a child of that Provider.
+
+</Box>
+
+```diff 11,13 subtitle="Wrap all components we want to have access to a context with a Context Provider"
+```
+
+</Step>
+
+<Step>
+
+<Box p={200}>
+
+A Context Consumer can the use the value provided by a Context Provider
+as long as it is a child of that Provider.
+
+</Box>
+
+```diff 5 subtitle="Grab the context value with useContext"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

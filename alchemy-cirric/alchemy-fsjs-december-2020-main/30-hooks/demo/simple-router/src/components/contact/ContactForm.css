@@ -1,0 +1,6 @@
+.ContactForm {
+  input,
+  textarea {
+    display: block;
+  }
+}

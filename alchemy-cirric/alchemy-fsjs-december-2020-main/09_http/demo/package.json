@@ -1,0 +1,20 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "* BST   * Node     * data, left, right   * BinarySearchTree     * root     * insert, find     * traversal: pre, in, post order (depth first), level order (breadth first) * TCP   * create a TCP server/client * HTTP   * send HTTP through TCP connection   * test routes",
+  "main": "client.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.0.1"
+  }
+}

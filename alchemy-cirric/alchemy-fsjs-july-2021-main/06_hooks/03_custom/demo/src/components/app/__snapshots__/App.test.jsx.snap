@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Events App renders a list of events for a given day 1`] = `
+<div>
+  <ul
+    aria-label="events"
+  >
+    <li>
+      <article>
+        1992
+         - 
+        Bill got chickenpox!
+      </article>
+    </li>
+  </ul>
+</div>
+`;

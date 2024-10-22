@@ -1,0 +1,119 @@
+import { themes } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# React useReducer
+
+---
+
+## useReducer
+
+An alternative to useState. Accepts a reducer of type
+`(state, action) => newState`, and returns the current
+state paired with a dispatch method. (If you’re familiar
+with Redux, you already know how this works.)
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+```js showNumbers
+function Counter({initialState}) {
+  const [count, setCount] = useState(0);
+
+  const increment = () => setCount(count => count + 1);
+  const decrement = () => setCount(count => count - 1);
+
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </>
+  );
+}
+```
+
+```js showNumbers
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter({initialState}) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const increment = () => dispatch({type: 'increment'});
+  const decrement = () => dispatch({type: 'decrement'})
+
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </>
+  );
+}
+```
+
+</Step>
+
+<Step title="define state">
+
+```diff 2 subtitle="useState returns the state and a function to update state"
+```
+
+```diff 15 subtitle="useReducer returns the state and a function to send an action to a reducer"
+```
+
+</Step>
+
+<Step title="initializing state">
+
+```diff 2[38] subtitle="useState takes the initial state as its first argument"
+```
+
+```diff 15[49:60] subtitle="useReducer takes the initial state as its second argument"
+```
+
+</Step>
+
+<Step title="updating state state">
+
+```diff 4,5 subtitle="update state by invoking the setCount function"
+```
+
+```diff 17,18 subtitle="update state by dispatching an action"
+```
+
+</Step>
+
+<Step title="state transformation">
+
+```diff 4[27:54],5[27:54] subtitle="logic is written inside the component"
+```
+
+```diff 3:12 subtitle="logic is written in a reducer function"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

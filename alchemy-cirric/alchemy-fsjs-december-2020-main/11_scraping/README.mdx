@@ -1,0 +1,297 @@
+import { themes, Steps,  Split, Invert } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, duotoneLight } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Web Scraping
+
+---
+
+## Data Processing
+
+![Data Processing](https://alchemycodelab.s3-us-west-2.amazonaws.com/Data+Pipeline.png)
+
+---
+
+![web-scraping-basic](https://alchemycodelab.s3.us-west-2.amazonaws.com/web-scraping-basic.png)
+
+---
+
+## Make a request
+
+![blue-line](https://alchemycodelab.s3-us-west-2.amazonaws.com/blue-line.png)
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```js showNumbers title="request.js" subtitle="we're going to write code that will fetch html from the trimet website and return a DOM representation of the site"
+
+```
+
+```js showNumbers title="request.js" subtitle="we'll use the node-fetch library to make an HTTP request to the site. (node-fetch is like superagent)"
+const fetch = require('node-fetch');
+```
+
+```js showNumbers title="request.js" subtitle="export a request function"
+const fetch = require('node-fetch');
+
+const request = async() => {
+  
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="fetch from the trimet web site"
+const fetch = require('node-fetch');
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="parse the response as text to get the HTML as a string"
+const fetch = require('node-fetch');
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+  const html = await response.text();
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="next we want to parse the HTML into an Object (DOM)"
+const fetch = require('node-fetch');
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+  const html = await response.text();
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="require jsdom which takes HTML and parses it into DOM"
+const fetch = require('node-fetch');
+const { JSDOM  } = require('jsdom')
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+  const html = await response.text();
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="create DOM from the HTML we received"
+const fetch = require('node-fetch');
+const { JSDOM  } = require('jsdom')
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+  const html = await response.text();
+  const dom = new JSDOM(html);
+};
+
+module.exports = request;
+```
+
+```js showNumbers title="request.js" subtitle="return the document. this document has all the familiar DOM methods (e.g. querySelector and querySelectorAll)"
+const fetch = require('node-fetch');
+const { JSDOM  } = require('jsdom')
+
+const request = async() => {
+  const response = await fetch('https://trimet.org/schedules/w/t1100_1.htm');
+  const html = await response.text();
+  const dom = new JSDOM(html);
+  
+  return dom.window.document;
+};
+
+module.exports = request;
+```
+
+</CodeSurfer>
+
+---
+
+<Invert>
+
+
+## Extract (parse) the response
+
+![dom](https://alchemycodelab.s3-us-west-2.amazonaws.com/dom.png)
+
+</Invert>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```js showNumbers title="parse.js" subtitle="create a parse function and export it"
+const parse = () => {
+
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="parse will take a document, the document from request.js"
+const parse = document => {
+
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="we want to grab all station names"
+const parse = document => {
+
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="the stations are inside a #timeTable"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="inside of the timeTable we want to grab all h6 elements"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+  const h6s = table.querySelectorAll('h6');
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="to get the station names we need to map through the h6s and grab their textContent"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+  const h6s = table.querySelectorAll('h6');
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="but first we need to convert the NodeList into an array"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+  const h6s = [...table.querySelectorAll('h6')];
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="then we can get the textContent"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+  const h6s = [...table.querySelectorAll('h6')]
+    .map(h6 => h6.textContent);
+  
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="returning the list of station names"
+const parse = document => {
+  const table = document.querySelector('#timeTable');
+  const h6s = [...table.querySelectorAll('h6')]
+    .map(h6 => h6.textContent);
+  
+  return h6s;
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="refactor table to timeTable"
+const parse = document => {
+  const timeTable = document.querySelector('#timeTable');
+  const h6s = [...timeTable.querySelectorAll('h6')]
+    .map(h6 => h6.textContent);
+  
+  return h6s;
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="refactor h6s to stationNames"
+const parse = document => {
+  const timeTable = document.querySelector('#timeTable');
+  const stationNames = [...timeTable.querySelectorAll('h6')]
+    .map(stationElement => stationElement.textContent);
+  
+  return stationNames;
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="combine the query"
+const parse = document => {
+  const stationNames = [...document.querySelectorAll('#timeTable h6')]
+    .map(stationElement => stationElement.textContent);
+  
+  return stationNames;
+};
+
+module.exports = parse;
+```
+
+```js showNumbers title="parse.js" subtitle="extract magic strings"
+const STATION_NAMES_SELECTOR = '#timeTable h6';
+
+const parse = document => {
+  const stationNames = [...document.querySelectorAll(STATION_NAMES_SELECTOR)]
+    .map(stationElement => stationElement.textContent);
+  
+  return stationNames;
+};
+
+module.exports = parse;
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```js title="usage"
+const request = require('./request');
+const parse = require('./parse');
+
+request()
+  .then(parse);
+  .then(stationNames => {
+    // do what you want with station names
+  });
+```
+
+</CodeSurfer>
+
+---
+
+![web-scraping](https://alchemycodelab.s3.us-west-2.amazonaws.com/web-scraping.png)
+
+---
+
+![scraping](https://alchemycodelab.s3-us-west-2.amazonaws.com/scraping.png)
+
+---

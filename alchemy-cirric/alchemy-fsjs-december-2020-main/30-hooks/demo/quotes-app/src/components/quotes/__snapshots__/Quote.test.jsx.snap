@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Quote component matches a snapshot 1`] = `
+<DocumentFragment>
+  <figure
+    class="Quote"
+  >
+    <img
+      alt="Bender"
+      src="http://image.com"
+    />
+    <figcaption>
+      <p>
+        Bender
+      </p>
+      <p>
+        Hello
+      </p>
+    </figcaption>
+  </figure>
+</DocumentFragment>
+`;

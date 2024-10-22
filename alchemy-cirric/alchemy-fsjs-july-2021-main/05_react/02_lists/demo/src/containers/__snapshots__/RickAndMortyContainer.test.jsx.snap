@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RickAndMortyContainer renders a list of characters to the page 1`] = `
+<ul
+  aria-label="characters"
+>
+  <li>
+    <img
+      alt="Rick Sanchez (from API!)"
+      src="example.com/image.png"
+    />
+    <p>
+      Rick Sanchez (from API!)
+    </p>
+    <p>
+      Alive
+    </p>
+  </li>
+</ul>
+`;

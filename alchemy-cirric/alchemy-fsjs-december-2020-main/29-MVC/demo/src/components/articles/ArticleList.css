@@ -1,0 +1,9 @@
+.ArticleList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  list-style-type: none;
+
+  li {
+    margin: auto;
+  }
+}

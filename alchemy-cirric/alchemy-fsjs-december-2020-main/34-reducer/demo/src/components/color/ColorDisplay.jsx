@@ -1,0 +1,14 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const ColorDisplay = ({ bgColor, fgColor, text }) => (
+  <p style={{ backgroundColor: bgColor, color: fgColor }}>{text}</p>
+);
+
+ColorDisplay.propTypes = {
+  bgColor: PropTypes.string.isRequired,
+  fgColor: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
+};
+
+export default ColorDisplay;

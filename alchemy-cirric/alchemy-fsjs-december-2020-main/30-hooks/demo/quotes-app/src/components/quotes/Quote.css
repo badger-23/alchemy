@@ -1,0 +1,22 @@
+.Quote {
+  width: 10vw;
+
+  img {
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: red;
+  }
+  
+  &::before {
+    content: 'hello';
+    width: 10rem;
+  }
+
+  figcaption {
+    p:nth-of-type(2) {
+        color: blue;
+    }
+  }
+}

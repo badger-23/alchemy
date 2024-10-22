@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuoteList displays a list of quotes 1`] = `
+<ul
+  aria-label="quotes"
+>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="example.com/image.png"
+      />
+      <figcaption>
+        Bite my shiny metal ass.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Fry"
+        src="example.com/image.png"
+      />
+      <figcaption>
+        ...it's what seperates humans and robots from animals and animal robots.
+         - 
+        Fry
+      </figcaption>
+    </figure>
+                  
+  </li>
+</ul>
+`;

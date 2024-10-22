@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FuturamaContainer should display a list of quotes by a character 1`] = `
+<ul
+  aria-label="quotes"
+>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        Bite my shiny metal ass.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Leela"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904145/leela.png"
+      />
+      <figcaption>
+        ...at least here you'll be treated with dignity. Now strip naked and get on
+the probulator.
+         - 
+        Leela
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Fry"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904133/fry.png"
+      />
+      <figcaption>
+        ...it's what seperates humans and robots from animals and animal robots.
+         - 
+        Fry
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        Everybody's a jerk: you, me, this jerk.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        Of all the friends I've had, you're the first.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        I hate the people that love me, and they hate me.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Calculon"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904047/calculon.jpg"
+      />
+      <figcaption>
+        Me too. I'm filled with a large number of powerful emotions.
+         - 
+        Calculon
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="URL"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904048/Url.jpg"
+      />
+      <figcaption>
+        You call that an antenna?
+         - 
+        URL
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Professor Farnsworth"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904014/farnsworth.png"
+      />
+      <figcaption>
+        ...each pound of which weighs over 10,000 pounds.
+         - 
+        Professor Farnsworth
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        That'll take forever. What she ought to do is find a nice guy with two eyes
+and poke one out.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Zapp Brannigan"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904049/Zapp_Brannigan.png"
+      />
+      <figcaption>
+        I'm anticipating an all-out tactical dogfight, followed by a light dinner.
+         - 
+        Zapp Brannigan
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Zapp Brannigan"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904049/Zapp_Brannigan.png"
+      />
+      <figcaption>
+        In the game of chess you can never let your adversary see your pieces.
+         - 
+        Zapp Brannigan
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        A grim day for robot-kind. But we can always build more killbots.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Professor Farnsworth"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904014/farnsworth.png"
+      />
+      <figcaption>
+        Now, now, there will be plenty of time to discuss your objections when and if
+you return.
+         - 
+        Professor Farnsworth
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        I'm gonna drink 'til I reboot.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        What kind of party is this? There's no booze and only one hooker.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Fry"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904133/fry.png"
+      />
+      <figcaption>
+        I haven't had time off since I was 21 through 24.
+         - 
+        Fry
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        I assure you, I barely know the meaning of the word labor.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Bender"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/fetch/c_scale,w_500/https://res.cloudinary.com/dzxqhkyqd/image/upload/v1552429540/bender.png"
+      />
+      <figcaption>
+        I'm a fraud. A poor, lazy, sexy fraud.
+         - 
+        Bender
+      </figcaption>
+    </figure>
+                  
+  </li>
+  <li>
+    <figure>
+      <img
+        alt="Zapp Brannigan"
+        src="https://res.cloudinary.com/dzxqhkyqd/image/upload/v1554904049/Zapp_Brannigan.png"
+      />
+      <figcaption>
+        You remind me of a young me. Not much younger mind you; perhaps even a couple
+of years older.
+         - 
+        Zapp Brannigan
+      </figcaption>
+    </figure>
+                  
+  </li>
+</ul>
+`;

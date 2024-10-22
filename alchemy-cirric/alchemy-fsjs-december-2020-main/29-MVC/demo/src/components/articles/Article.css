@@ -1,0 +1,14 @@
+.Article {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+
+  figure {
+    width: 15rem;
+    text-align: center;
+
+    img {
+      width: 100%;
+    }
+  }
+}

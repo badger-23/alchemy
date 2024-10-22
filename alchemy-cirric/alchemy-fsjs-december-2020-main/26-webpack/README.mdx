@@ -1,0 +1,1843 @@
+import { themes, Invert } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+import Code from '../components/Code.js'
+
+export const theme = {
+  ...themes.prism,
+  ...themes.future
+}
+
+# Review - Webpack - React
+
+--- 
+
+# Agenda
+
+<Steps>
+
+* Review
+  * Array Methods
+  * Promises
+* Single Page Apps (SPA)
+  * One HTML file
+  * Changes to the view are handled by JavaScript
+* Bundling with Webpack
+* React
+  * Components
+    * modular reusable views
+  * JSX
+  * Rendering elements
+  * Testing
+
+</Steps>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+<section>
+
+## Array Methods - .map
+
+* `.map` iterates through each item in an array
+
+</section>
+
+
+```js
+const newArr = arr.map((item, index, originalArr) => {
+  return index;
+});
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.map` iterates through each item in an array
+* `.map` takes a callback 
+
+</section>
+
+```diff 1[24:54],2,3[1] subtitle="pass a callback"
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.map` iterates through each item in an array
+* `.map` takes a callback 
+  * the callback is passed an item, index, and the original array
+
+</section>
+
+```js 1[25:28,31:35,38:48]
+const newArr = arr.map((item, index, originalArr) => {
+  return index;
+});
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.map` iterates through each item in an array
+* `.map` takes a callback 
+  * the callback is passed an item, index, and the original array
+* for each item in the array the callback is invoked. The returned
+  value is added to another array
+
+</section>
+
+```js 1[7:12],2
+const newArr = arr.map((item, index, originalArr) => {
+  return index;
+});
+```
+
+</Step>
+
+<Step>
+
+<Code editorStyles={{ width: '100%'}}>
+
+```js Array Methods - .map
+const arr = ['hello', 'I', 'am', 'an', 'array'];
+const newArr = arr.map((item, index, originalArr) => {
+  return index;
+});
+```
+
+</Code>
+
+```js 1[7:12],2
+const newArr = arr.map((item, index, originalArr) => {
+  return index;
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```js title="Creating a new array with .map" subtitle="setup"
+arr.map(() => {
+
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="setup"
+arr.forEach(() => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+```js title="Creating a new array with .map" subtitle="with each item"
+arr.map(item => {
+
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="with each item"
+arr.forEach(item => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+```js title="Creating a new array with .map" subtitle="create an array with new values"
+const newArr = arr.map(item => {
+  return item + 1;
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="push new value to an array"
+const newArr = []
+arr.forEach(item => {
+  newArr.push(item + 1);
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+<section>
+
+## Array Methods - .filter
+
+* `.filter` iterates through each item in an array
+
+</section>
+
+
+```js
+arr.filter();
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.filter` iterates through each item in an array
+* `.filter` takes a callback 
+
+</section>
+
+```js 1[12:18],2,3[1] subtitle="pass a callback"
+arr.filter(() => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.filter` iterates through each item in an array
+* `.filter` takes a callback 
+  * the callback is passed an item, index, and the original array
+
+</section>
+
+```js 1[13:17,19:24,26:36]
+arr.filter((item, index, originalArr) => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Array Methods
+
+* `.filter` iterates through each item in an array
+* `.filter` takes a callback 
+  * the callback is passed an item, index, and the original array
+* for each item in the array the callback is invoked. If the returned
+  value is truthy it is added to the new array;
+
+</section>
+
+```js 1[7:13],2
+const newArr = arr.filter((item, index, originalArr) => {
+  return index % 2 === 0;
+});
+```
+
+</Step>
+
+<Step>
+
+<Code editorStyles={{ width: '100%'}}>
+
+```js Array Methods - .filter
+const arr = ['spot', 'is', 5, 'and', '20 lbs'];
+const newArr = arr.filter((item, index, originalArr) => {
+  return index % 2 === 0;
+});
+```
+
+</Code>
+
+```js 1[7:13],2
+const newArr = arr.map((item, index, originalArr) => {
+  return index % 2 === 0;
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```js title="Creating a new array with .filter" subtitle="setup"
+arr.filter(() => {
+
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="setup"
+arr.forEach(() => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+```js title="Creating a new array with .filter" subtitle="with each item"
+arr.filter(item => {
+
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="with each item"
+arr.forEach(item => {
+
+});
+```
+
+</Step>
+
+<Step>
+
+```js title="Creating a new array with .filter" subtitle="create an array with new values"
+const newArr = arr.filter(item => {
+  return item > 3
+});
+```
+
+```js title="Creating a new array with .forEach" subtitle="push new value to an array"
+const newArr = []
+arr.forEach(item => {
+  if(item > 3) {
+    newArr.push(item);
+  }
+});
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<Invert>
+
+## Promises
+
+A promise (or a thenable) is a way to handle asynchronous actions.
+
+It is a promise to do some action or send some data at some future time.
+
+Other languages may use the word future, delay, or deferred for concepts similar
+to JavaScript promises.
+
+</Invert>
+
+---
+
+### States
+
+<Steps>
+
+* `pending` - initial state of a promise
+* `fulfilled` - promise successfully resolved
+* `rejected` - promise completed with failure
+
+</Steps>
+
+---
+
+### Instance methods
+
+<Steps>
+
+* `then` - takes a callback that will get invoked on a fulfilled promise
+* `catch` - takes a callback that will get invoked on a rejected promise
+* `finally` - takes a callback that will get invoked when a promise finishes
+
+</Steps>
+
+---
+
+### Promise.all
+
+`Promise.all` takes an array of promises. It returns a promise that fulfills
+when each promise in the array fulfills. It rejects if any promise in the array
+rejects.
+
+If all promises fulfill, `then` the `onFulfilled` callback is passed an array
+where each item is a fulfilled value from the fulfilled promises passed to
+`Promise.all` in order.
+
+---
+
+<CodeSurfer>
+
+```js
+Promise.all([
+
+
+
+])
+  .then(fulfilledValues => {
+    
+
+
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  
+  
+])
+  .then(fulfilledValues => {
+    // fulfilledValues[0] is the fulfilled value from promise1
+    
+
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+  
+])
+  .then(fulfilledValues => {
+    // fulfilledValues[0] is the fulfilled value from promise1
+    // fulfilledValues[1] is the fulfilled value from promise2
+    
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+  promise3
+])
+  .then(fulfilledValues => {
+    // fulfilledValues[0] is the fulfilled value from promise1
+    // fulfilledValues[1] is the fulfilled value from promise2
+    // fulfilledValues[2] is the fulfilled value from promise3
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+  promise3
+])
+  .then(([fulfilled1, fulfilled2, fulfilled3]) => {
+    // ....
+  })
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```js
+Promise.all([
+  
+
+
+])
+  .then(fulfilledValues => {
+    
+
+
+  })
+```
+
+```js
+Promise.all([
+
+
+
+])
+  .then(([]) => {
+    // ....
+  })
+```
+
+</Step>
+
+<Step>
+
+```js
+Promise.all([
+  promise1,
+
+
+])
+  .then(fulfilledValues => {
+    const fulfilled1 = fulfilledValues[0];
+
+
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+
+
+])
+  .then(([fulfilled1]) => {
+    // ....
+  })
+```
+
+</Step>
+
+<Step>
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+
+])
+  .then(fulfilledValues => {
+    const fulfilled1 = fulfilledValues[0];
+    const fulfilled2 = fulfilledValues[1];
+
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+
+])
+  .then(([fulfilled1, fulfilled2]) => {
+    // ....
+  })
+```
+
+</Step>
+
+<Step>
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+  promise3
+])
+  .then(fulfilledValues => {
+    const fulfilled1 = fulfilledValues[0];
+    const fulfilled2 = fulfilledValues[1];
+    const fulfilled3 = fulfilledValues[2];
+  })
+```
+
+```js
+Promise.all([
+  promise1,
+  promise2,
+  promise3
+])
+  .then(([fulfilled1, fulfilled2, fulfilled3]) => {
+    // ....
+  })
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## Promise chains vs Async/Await
+
+### The problem
+
+---
+
+### Fetching X-File Character Names
+
+Using the [x-files api](https://xfiles-api.herokuapp.com)
+we want to get an array of character names.
+
+```json
+{
+  "quantity": 3,
+  "results": [
+    {
+      "name": "Absalom",
+      "gender": "Male",
+      "status": "Deceased",
+      "born": null,
+      "occupation": "Cult leader",
+      "rank": null,
+      "affiliations": null,
+      "portrayedby": "Judson Scott",
+      "image": "...",
+      "description": "...",
+      "categories": [
+        "Criminals",
+        "Deceased people"
+      ]
+    }
+  ]
+}
+```
+
+---
+
+<CodeSurferColumns themes={[github, github, vsDark]}>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+
+</section>
+
+```js title="Promise Chains" subtitle="setup"
+const fetchCharacters = () => {
+
+}
+```
+
+```js title="Async/Await" subtitle="setup"
+const fetchCharacters = async() => {
+
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+
+</section>
+
+```js title="Promise Chains" subtitle="fetch from api"
+const fetchCharacters = () => {
+  return fetch(url)
+}
+```
+
+```js title="Async/Await" subtitle="await fetch since fetch is a promise"
+const fetchCharacters = async() => {
+  await fetch(url);
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+
+    })
+}
+```
+
+```js title="Async/Await" subtitle="assign res to the awaited value"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+
+</section>
+
+```js title="Promise Chains"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+      return res.json();
+    })
+}
+```
+
+```js title="Async/Await"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const json = await res.json();
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+* munge the json into a shape we like (an array of character names)
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => {
+      return res.json();
+    })
+    .then(json => {
+      return json.results.map(character => character.name);
+    });
+}
+```
+
+```js title="Async/Await" subtitle="return a value from the async function"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const json = await res.json();
+  const characterNames = json.results.map(character => character.name);
+
+  return characterNames;
+}
+```
+
+</Step>
+
+<Step>
+
+<section>
+
+## Fetch Characters
+
+* we create a `fetchCharacters` function
+* we fetch from the x-files api
+* we wait for the fetch to complete then we use the response
+* parse the response body and wait for the result
+* munge the json into a shape we like (an array of character names)
+* refactor to make pretty
+
+</section>
+
+```js title="Promise Chains" subtitle="use .then to wait for the response"
+const fetchCharacters = () => {
+  return fetch(url)
+    .then(res => res.json())
+    .then(({ results }) => results.map(({ name }) => name));
+}
+```
+
+```js title="Async/Await" subtitle="return a value from the async function"
+const fetchCharacters = async() => {
+  const res = await fetch(url);
+  const { results } = await res.json();
+  
+  return results.map(({ name }) => name);
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## Using `fetchCharacters`
+
+In either case (promise chain or async/await), the `fetchCharacters` function returns a promise
+
+```js
+fetchCharacters()
+  .then(characters => console.log(characters));
+```
+
+---
+
+<Invert>
+
+## Webpack
+
+Webpack is used to bundle multiple JavaScript files into a single file.
+
+</Invert>
+
+---
+
+## Why Webpack?
+
+<Steps>
+
+* until recently modules didn't exist in JavaScript forcing you to write all you code in a single file
+  or deal with multiple script tags in your HTML
+* some browsers still don't support ECMAScript Modules (import/export syntax)
+* webpack allows us to run our code through loaders that automatically transforms our code
+  * taking modern JavaScript and making it available for older browsers
+  * taking jsx and converting it into vanilla JavaScript
+
+</Steps>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+<Box p={5}>
+
+### Configuration
+
+Webpack is configured by creating a `webpack.config.js` file at the root of your project.
+
+</Box>
+
+```js
+// webpack.config.js
+// export a configuration object
+module.exports = {
+  
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={5}>
+
+### Entry
+
+In order to start bundling JavaScript files you need to provide an entry point.
+This acts as the main JavaScript file.
+
+When using the built in JavaScript module system, your entry point is the file
+you provide to the `script` tag.
+
+If not provided, the entry field defaults to `./src/index.js`.
+
+</Box>
+
+```js
+// webpack.config.js
+// export a configuration object
+module.exports = {
+  entry: './src/index.js',
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={5}>
+
+### Output
+
+After Webpack has bundled your JavaScript it needs to output the bundle somewhere.
+To specify where the bundle is saved provided an `output` key.
+
+If not provided, the output field defaults to `./dist/main.js`.
+
+</Box>
+
+```js
+// webpack.config.js
+// export a configuration object
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.js'
+  },
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={5}>
+
+### Cache
+
+Browsers will often cache files locally. If the browser finds a file in its cache
+it will not make a request to get the file. This can cause issues if you've updated
+your JavaScript, but the browser continues to load an older version from cache. To
+prevent this webpack allows you to make unique filenames as output.
+
+Here `[hash]` will be a unique hash creating a unique file name.
+
+</Box>
+
+```js 6[23:28]
+// webpack.config.js
+// export a configuration object
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={5}>
+
+### DevServer
+
+During development we can bundle our code and start a development server to view our code
+in a browser. To do this we need to setup `webpack-dev-server`
+
+Additionally, we need to add a `start` script to our `package.json`
+
+```js
+"start": "webpack-dev-server --hot --mode development",
+```
+
+</Box>
+
+```js subtitle="devServer running on PORT 7891"
+// webpack.config.js
+// export a configuration object
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7891
+  }
+};
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<Box p={200}>
+
+### DevTool
+
+Since our JavaScript is bundled together, our error messages stop making sense. Instead of
+getting error messages (line numbers and file names) based on our pre-bundled code, errors
+are presented based on our bundled code. This makes debugging hard.
+
+To prevent this we can add a source map which maps lines from the bundled file to our
+original source files.
+
+</Box>
+
+```js
+"start": "webpack-dev-server --hot --mode development --devtool eval-source-map",
+"build": "webpack -p --devtool source-map"
+```
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+<Box p={100}>
+
+### Loaders
+
+Webpack can also run your JavaScript files through loaders, which allows you to transpile
+(or transform) your JavaScript.
+
+<Box bg="white" color="black">
+
+Loader | Behavior
+------ | --------
+`babel-loader` | Transpile modern JavaScript into versions compatible with older browsers
+`style-loader` | Inject CSS by importing into JavaScript files
+`css-loader` | `@import` and `url` are treated like imports
+`postcss-loader` | Transpile PostCSS into CSS
+`url-loader` | Import files (like images) into JavaScrip. Transforms them into base64 data urls
+`file-loader` | Import files into JavaScript.
+
+</Box>
+
+* Loaders are added as `rules`.
+
+</Box>
+
+```js showNumbers 10:21
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  module: {
+    rules: [
+      
+
+
+
+
+
+
+
+
+
+    ]
+  }
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### Loaders
+
+Webpack can also run your JavaScript files through loaders, which allows you to transpile
+(or transform) your JavaScript.
+
+<Box bg="white" color="black">
+
+Loader | Behavior
+------ | --------
+`babel-loader` | Transpile modern JavaScript into versions compatible with older browsers
+`style-loader` | Inject CSS by importing into JavaScript files
+`css-loader` | `@import` and `url` are treated like imports
+`postcss-loader` | Transpile PostCSS into CSS
+`url-loader` | Import files (like images) into JavaScrip. Transforms them into base64 data urls
+`file-loader` | Import files into JavaScript.
+
+</Box>
+
+* Loaders are added as `rules`
+* Each rule is an object
+
+</Box>
+
+```js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  module: {
+    rules: [
+      {
+
+
+
+
+
+
+
+
+      }
+    ]
+  }
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### Loaders
+
+Webpack can also run your JavaScript files through loaders, which allows you to transpile
+(or transform) your JavaScript.
+
+<Box bg="white" color="black">
+
+Loader | Behavior
+------ | --------
+`babel-loader` | Transpile modern JavaScript into versions compatible with older browsers
+`style-loader` | Inject CSS by importing into JavaScript files
+`css-loader` | `@import` and `url` are treated like imports
+`postcss-loader` | Transpile PostCSS into CSS
+`url-loader` | Import files (like images) into JavaScrip. Transforms them into base64 data urls
+`file-loader` | Import files into JavaScript.
+
+</Box>
+
+* Loaders are added as `rules`
+* Each rule is an object
+  * that uses a loader to transform our JavaScript
+
+</Box>
+
+```js subtitle="Babel is used to convert our jsx into regular JavaScript"
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  module: {
+    rules: [
+      {
+
+
+        use: {
+          loader: 'babel-loader'
+          options: {
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### Loaders
+
+Webpack can also run your JavaScript files through loaders, which allows you to transpile
+(or transform) your JavaScript.
+
+<Box bg="white" color="black">
+
+Loader | Behavior
+------ | --------
+`babel-loader` | Transpile modern JavaScript into versions compatible with older browsers
+`style-loader` | Inject CSS by importing into JavaScript files
+`css-loader` | `@import` and `url` are treated like imports
+`postcss-loader` | Transpile PostCSS into CSS
+`url-loader` | Import files (like images) into JavaScrip. Transforms them into base64 data urls
+`file-loader` | Import files into JavaScript.
+
+</Box>
+
+* Loaders are added as `rules`
+* Each rule is an object
+  * that uses a loader to transform our JavaScript
+  * that loader is used on every file that matches a test regular expression
+
+</Box>
+
+```js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+
+        use: {
+          loader: 'babel-loader'
+          options: {
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### Loaders
+
+Webpack can also run your JavaScript files through loaders, which allows you to transpile
+(or transform) your JavaScript.
+
+<Box bg="white" color="black">
+
+Loader | Behavior
+------ | --------
+`babel-loader` | Transpile modern JavaScript into versions compatible with older browsers
+`style-loader` | Inject CSS by importing into JavaScript files
+`css-loader` | `@import` and `url` are treated like imports
+`postcss-loader` | Transpile PostCSS into CSS
+`url-loader` | Import files (like images) into JavaScrip. Transforms them into base64 data urls
+`file-loader` | Import files into JavaScript.
+
+</Box>
+
+* Loaders are added as `rules`
+* Each rule is an object
+  * that uses a loader to transform our JavaScript
+  * that loader is used on every file that matches a test regular expression
+  * excluding our node_modules
+
+</Box>
+
+```js
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+          options: {
+            cacheDirectory: true
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+### Plugins
+
+<Box bg="white" color="black">
+
+Plugin | Behavior
+------ | --------
+`html-webpack-plugin` | Inject bundled JavaScript into an HTML template
+`clean-webpack-plugin` | Delete old bundle files
+`dotenv-webpack` | Import environment from a `.env` file
+
+</Box>
+
+Plugins allow us to customize the webpack build process. Plugins are added
+with a `plugins` field.
+
+---
+
+<CodeSurfer>
+
+```js title="Adding Plugins" showNumbers 1:2,12:15
+const HtmlPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  plugins: [
+    new HtmlPlugin({ template: './src/index.html' }),
+    new CleanWebpackPlugin()
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: { sourceMap: true }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: true,
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: [
+                require('autoprefixer')(),
+                require('postcss-nested')()
+              ]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpeg|jpg|png|svg)$/,
+        use: {
+          loader: 'url-loader',
+          options: { limit: 1000 },
+        },
+      }
+    ]
+  }
+};
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```js title="Webpack config"
+const HtmlPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: './main.[hash].js'
+  },
+  devServer: {
+    port: 7890
+  },
+  plugins: [
+    new HtmlPlugin({ template: './src/index.html' }),
+    new CleanWebpackPlugin()
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'style-loader',
+            options: { sourceMap: true }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: true,
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              plugins: [
+                require('autoprefixer')(),
+                require('postcss-nested')()
+              ]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpeg|jpg|png|svg)$/,
+        use: {
+          loader: 'url-loader',
+          options: { limit: 1000 },
+        },
+      }
+    ]
+  }
+};
+```
+
+```diff 5 title="Entry" subtitle="The main file in our code. Usually an index.js file."
+
+```
+
+```diff 6:8 title="Output" subtitle="Where to save our bundled file. This is the code that will run."
+
+```
+
+```diff 9:11 title="Dev Server" subtitle="While developing what port should our code run on?"
+
+```
+
+```diff 12:15 title="Plugins" subtitle="Plugins are tasks that run during the bundling process"
+
+```
+
+```diff 17:62 title="Loaders" subtitle="Loaders automatically change our code during bundling"
+
+```
+
+```diff 18:27 title="Babel Loader" subtitle="Babel Loader is used to transform jsx into plain JavaScript"
+
+```
+
+```diff 28:54 title="CSS Loaders" subtitle="Style and CSS loader are used to import CSS into our JavaScript"
+
+```
+
+```diff 55:61 title="URL Loader" subtitle="URL Loader is used to import images into our JavaScript"
+
+```
+
+</CodeSurfer>
+
+---
+
+## React
+
+---
+
+<Box p={100}>
+
+### Components
+
+To better reason about our web applications its often useful to break each
+page into multiple smaller views. These smaller views are called components.
+
+In addition to being easier to reason about, these smaller components also
+simplify code reuse through composition. Each component can be made up of
+other components, composing a greater whole.
+
+</Box>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+<Box p={100}>
+
+### JSX
+
+JSX is HTML looking JavaScript that can be used to create React elements.
+Anywhere you use JSX you must import `react`
+
+</Box>
+
+```js showNumbers
+import React from 'react';
+
+const element = <h1>My Header</h1>;
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### JSX
+
+JSX is HTML looking JavaScript that can be used to create React elements.
+Anywhere you use JSX you must import `react`
+
+</Box>
+
+```js showNumbers
+import React from 'react';
+
+const dogElement = (
+  <dl>
+    <dt>Name</dt>
+    <dd>Spot</dd>
+
+    <dt>Age</dt>
+    <dd>5</dd>
+
+    <dt>Weight</dt>
+    <dd>20 lbs</dd>
+  </dl>
+)
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+### JSX
+
+Ultimately, JSX is JavaScript. We can evaluate JavaScript between `{}` inside of our JSX.
+
+</Box>
+
+```js showNumbers
+import React from 'react';
+
+const dog = {
+  name: 'Spot',
+  age: 5,
+  weight: '20 lbs'
+};
+
+const dogElement = (
+  <dl>
+    <dt>Name</dt>
+    <dd>{dog.name}</dd>
+
+    <dt>Age</dt>
+    <dd>{dog.age}</dd>
+
+    <dt>Weight</dt>
+    <dd>{dog.weight}</dd>
+  </dl>
+)
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+### Rendering React
+
+We can render react components onto a page by selecting a node and
+filling it with our react component
+
+```js
+// src/index.js
+import React from 'react';
+import { render } from 'react-dom';
+
+const element = <h1>React!</h1>;
+
+render(
+  element,
+  document.getElementById('root')
+);
+```
+
+Typically we render a single `App` component which is responsible for
+structuring our application and rendering other components.
+
+```js
+// src/index.js
+import React from 'react';
+import { render } from 'react-dom';
+import App from './components/app';
+
+render(
+  <App />,
+  document.getElementById('root')
+);
+```
+
+---
+
+<Invert>
+
+### React Components
+
+</Invert>
+
+---
+
+<CodeSurfer>
+
+```js title="React Class Components"
+import React, { Component } from 'react';
+
+export default class HelloWorld extends Component {
+  render() {
+    return (
+      <>
+        <h1>Hello World</h1>
+        <h2>I am a component</h2>
+      </>
+    )
+  }
+}
+```
+
+
+```diff 3[33:50] title="React Class Components" subtitle="extend from the Component class"
+```
+
+```diff 4:11 title="React Class Components" subtitle="has a render method"
+```
+
+```diff 5:10 title="React Class Components" subtitle="the render method returns markup"
+```
+
+```diff 6,9 title="React Class Components" subtitle="the returned markup can have only one root element"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```js title="React Functional Components"
+import React from 'react';
+
+const HelloWorld = () => (
+  <>
+    <h1>Hello World</h1>
+    <h2>I am a component</h2>
+  </>
+);
+
+export default HelloWorld;
+```
+
+
+```diff 3[20:27],4:8 title="React Functional Components" subtitle="are functions that return markup"
+```
+
+```diff 4,7 title="React Functional Components" subtitle="the returned markup can have only one root element"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```js showNumbers title="React Class Component" subtitle="setup"
+import React, { Component } from 'react';
+
+export default class HelloWorld extends Component {
+  
+}
+```
+
+```js showNumbers title="React Functional Component" subtitle="setup"
+import React from 'react';
+
+const HelloWorld = () => {
+  
+};
+
+export default HelloWorld;
+```
+
+</Step>
+
+<Step>
+
+```diff 3[16:20,33:39] title="React Class Component" subtitle="class that extends components"
+
+```
+
+```diff  3[20:26],4,5 title="React Functional Component" subtitle="a function"
+
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="React Class Component" subtitle="render method returns markup"
+import React, { Component } from 'react';
+
+export default class HelloWorld extends Component {
+  render() {
+    return (
+
+    )
+  }
+}
+```
+
+```js showNumbers title="React Functional Component" subtitle="a function that returns markup"
+import React from 'react';
+
+const HelloWorld = () => {
+  return (
+
+  )
+};
+
+export default HelloWorld;
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="React Class Component" subtitle="setup"
+import React, { Component } from 'react';
+
+export default class HelloWorld extends Component {
+  render() {
+    return (
+      <>
+        <h1>HelloWorld</h1>
+        <h2>I am a class component</h2>
+      </>
+    );
+  }
+}
+```
+
+```js showNumbers title="React Functional Component" subtitle="setup"
+import React from 'react';
+
+const HelloWorld = () => {
+  return (
+    <>
+      <h1>HelloWorld</h1>
+      <h2>I am a functional component</h2>
+    </>
+  )
+};
+
+export default HelloWorld;
+```
+
+</Step>
+
+<Step>
+
+```diff title="React Class Component"
+```
+
+```diff title="React Functional Component"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<Box p={100}>
+
+### Snapshot Testing
+
+Snapshot tests will store the HTML that a component creates inside
+a file. We can then check the file to make sure that the resulting
+HTML is what we expect. Going forward, anytime the HTML that our
+component creates changes our test will fail.
+
+```js
+import React from 'react';
+import { shallow } from 'enzyme';
+import Dog from './Dog';
+
+describe('Dog component', () => {
+  it('renders a Dog', () => {
+    const wrapper = shallow(<Dog />);
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+```
+
+</Box>

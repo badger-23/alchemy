@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RickAndMortyDetail display a single character 1`] = `
+<div>
+  <main>
+    <a
+      href="/"
+    >
+      Go home
+    </a>
+    <figure>
+      <img
+        alt="Rick Sanchez"
+        src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+      />
+      <figcaption>
+        Rick Sanchez
+         - 
+        Human
+         - 
+        Alive
+      </figcaption>
+    </figure>
+  </main>
+</div>
+`;

@@ -1,0 +1,74 @@
+import { themes } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Redux Architecture
+
+---
+
+## Store
+
+<Box p={200}>
+
+The store is responsible for holding our applications state. You can think of it
+as a global object accessible from anywhere in your application, like window.location.
+
+</Box>
+
+---
+
+## Actions
+
+<Box p={200}>
+
+Actions are plain JavaScript objects that send data/events to your store. Actions
+always have a type key which is the name of the event. Additionally, an action can
+also have a payload.
+
+```js
+const myAction = {
+  type: 'DO_STUFF'
+}
+```
+
+</Box>
+
+---
+
+
+<Box p={200}>
+
+## Reducers
+
+Reducers are pure functions responsible for updating our state in response
+to actions. Every action we dispatch will be sent to the reducer along with
+the current state. The reducer is then responsible for handling the action
+and returning a new state object based on the action.
+
+```js
+const initialState = {
+  stuff: 'unfinished'
+};
+
+export default function reducer(state = initialState, action) {
+  switch(action.type) {
+    case 'DO_STUFF':
+      return { stuff: 'done' };
+    default:
+      return state;
+  }
+}
+```
+
+**NOTE** don't forget to provide a default case in case your reducer
+cannot handle a particular action.
+
+</Box>
+
+---

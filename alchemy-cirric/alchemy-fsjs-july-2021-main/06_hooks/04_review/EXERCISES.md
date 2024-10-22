@@ -1,0 +1,29 @@
+# React Custom Hooks
+
+- List/Detail with custom hooks container pattern
+  - character list
+    - `Character`
+    - `CharacterList`
+    - `CharactersPage` (with paging)
+      - `CharactersPageClass`
+      - `CharactersPageHooks`
+      - `CharactersPageCustomHooks`
+  - character detail
+    - `CharacterDetail`
+    - `CharacterById`
+      - `CharacterByIdClass`
+      - `CharacterByIdHooks`
+      - `CharacterByIdCustomHooks`
+- `ThisDay`
+  - presentational
+    - `Entry`: year, text
+    - `Events`
+    - `Births`
+    - `Deaths`
+    - `ThisDay`
+    - `withList` and `List`
+  - custom hooks
+    - `useEvents`
+    - `useBirths`
+    - `useDeaths`
+    - `useThisDay`

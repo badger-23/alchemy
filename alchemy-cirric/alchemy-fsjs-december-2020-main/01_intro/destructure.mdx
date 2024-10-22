@@ -1,0 +1,394 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, shadesOfPurple } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.code,
+  ...themes.prism
+}
+
+# Advanced JavaScript syntax
+
+## Destructure, Spread, Rest
+
+---
+
+<CodeSurfer>
+
+```js title="Destructuring"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { name } = dog; //
+console.log(name); // prints rover
+```
+
+```diff 1[15:27],2[9:12] subtitle="destructure a property off of an object via key name"
+```
+
+```js subtitle="destructure multiple properties"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { name, age } = dog; //
+console.log(name, age); // prints rover 5
+```
+
+```diff 1[15:27,30:35],2[9:12,15:17]
+```
+
+```js subtitle="aliasing"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { name: dogName, age } = dog; //
+console.log(dogName, age); // prints rover 5
+```
+
+```diff 1[15:18],2[9:12] subtitle="key name remains the same"
+```
+
+```diff 2[15:21],3[13:19] subtitle="but the value is given a different variable name"
+```
+
+```js subtitle="defaulting"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { name, color = 'red' } = dog; //
+console.log(dogName, color); // prints rover red
+```
+
+```diff 2[15:27] subtitle="if a property doesn't exist a default value can be provided"
+```
+
+```js subtitle="the default will be ignored if the property does exist"
+const dog = { name: 'rover', age: 5, weight: '20lbs', color: 'blue' };
+const { name, color = 'red' } = dog; //
+console.log(dogName, color); // prints rover blue
+```
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const [one, two, three, four, five] = numbers; //
+console.log(one, three); // prints 1 3
+```
+
+```diff 1[18],2[8:10] subtitle="destructure the first value"
+```
+
+```diff 1[21],2[13:15] subtitle="destructure the second value"
+```
+
+```diff 1[24],2[18:22] subtitle="destructure the third value"
+```
+
+```diff 1[27],2[25:28] subtitle="destructure the fourth value"
+```
+
+```diff 1[30],2[31:34] subtitle="destructure the fifth value"
+```
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const [one, two] = numbers; //
+console.log(one, two); // prints 1 2
+```
+
+```diff 1[18],2[8:10] subtitle="destructure the first value"
+```
+
+```diff 1[21],2[13:15] subtitle="destructure the second value"
+```
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const [one,,huh] = numbers; //
+console.log(one, huh); // prints 1 3
+```
+
+```diff 1[18],2[8:10] subtitle="destructure the first value"
+```
+
+```diff 2[11:12] subtitle="skip the second value"
+```
+
+```diff 1[24],2[13:15] subtitle="destructure the third value"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+```js title="Rest"
+function things(...args) {
+  console.log(args)
+}
+
+things('hi', 'there', 'you'); // prints ['hi', 'there', 'you']
+```
+
+```diff 1[17:19] title="Rest" subtitle="rest syntax"
+```
+
+```diff 1[20:23],5[8:27] title="Rest" subtitle="args is an array of all arguments passed to things"
+```
+
+```diff 1[20:23],5[8:11] title="Rest" subtitle="args[0] is 'hi'"
+```
+
+```diff 1[20:23],5[14:20] title="Rest" subtitle="args[1] is 'there'"
+```
+
+```diff 1[20:23],5[23:27] title="Rest" subtitle="args[2] is 'you'"
+```
+
+```js title="Rest with destructuring"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { name, ...rest } = dog;
+console.log(rest) // prints { age: 5, weight: '20lbs' }
+```
+
+```js title="Rest with destructuring"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { age, ...othersStuff } = dog;
+console.log(othersStuff) // prints { name: 'rover', weight: '20lbs' }
+```
+
+```js title="Rest with destructuring"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { weight, ...noWeight } = dog;
+console.log(noWeight) // prints { name: 'rover', age: 5 }
+```
+
+```js title="Rest with destructuring"
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const { ...huh } = dog;
+console.log(huh) // prints { name: 'rover', age: 5, weight: '20lbs' }
+```
+
+```js
+const numbers = [1, 2, 3, 4];
+const [one, ...rest] = numbers;
+console.log(rest) // prints [2, 3, 4]
+```
+
+```js
+const numbers = [1, 2, 3, 4];
+const [one,, ...rest] = numbers;
+console.log(rest) // prints [3, 4]
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns title="Spread" themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const dogWithColor = { ...dog, color: 'red' };
+
+console.log(dogWithColor); // prints { name: 'rover', age: 5, weight: '20lbs', color: 'red' }
+```
+
+```js
+const dog = { name: 'rover', age: 5, weight: '20lbs' };
+const dogWithColor = { name: dog.name, age: dog.age, weight: dog.weight, color: 'red' };
+
+console.log(dogWithColor); // prints { name: 'rover', age: 5, weight: '20lbs', color: 'red' }
+```
+
+</Step>
+
+<Step>
+
+```diff 2[24:29] subtitle="spread dog into dogWithColor"
+```
+
+```diff 2[24:71] subtitle="manually spread dog into dogWithColor"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const dog = { name, 'rover', age: 5, weight: '20lbs' };
+const dogClone = { ...dog };
+
+console.log(dogClone); // prints { name: 'rover', age: 5, weight: '20lbs' }
+```
+
+```js
+const dog = { name, 'rover', age: 5, weight: '20lbs' };
+const dogClone = { name: dog.name, age: dog.age, weight: dog.weight };
+
+console.log(dogClone); // prints { name: 'rover', age: 5, weight: '20lbs' }
+```
+
+</Step>
+
+<Step>
+
+
+```diff 2[20:25] subtitle="spread dog into dogClone"
+```
+
+```diff 2[20:67] subtitle="manually spread dog into dogClone"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const dog = { name, 'rover', age: 5, weight: '20lbs' };
+const dogClone = { ...dog, name: 'spot' }; // prints { name: 'spot', age: 5, weight: '20lbs' }
+
+console.log(dogClone); // prints { name: 'spot', age: 5, weight: '20lbs' }
+```
+
+```js
+const dog = { name, 'rover', age: 5, weight: '20lbs' };
+const dogClone = { name: dog.name, age: dog.age, weight: dog.weight, name: 'spot' }; 
+
+console.log(dogClone); // prints { name: 'spot', age: 5, weight: '20lbs' }
+```
+
+</Step>
+
+<Step>
+
+```diff 2[20:25] subtitle="spread dog into dogClone"
+```
+
+```diff 2[20:67] subtitle="manually spread dog into dogClone"
+```
+
+</Step>
+
+<Step>
+
+```diff 2[28:39] subtitle="include a new name in dogClone"
+```
+
+```diff 2[70:81] subtitle="include a new name in dogClone"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const numbers = [1, 2, 3];
+const moreNumbers = [...numbers, 4, 5];
+
+console.log(moreNumbers) // prints [1, 2, 3, 4, 5]
+```
+
+```js
+const numbers = [1, 2, 3];
+const moreNumbers = [numbers[0], numbers[1], numbers[2], 4, 5];
+
+console.log(moreNumbers) // prints [1, 2, 3, 4, 5]
+```
+
+</Step>
+
+<Step>
+
+```diff 2[22:31] subtitle="Spread numbers into moreNumbers"
+```
+
+```diff 2[22:55] subtitle="Manually spread numbers into moreNumbers"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const numbers = [1, 2, 3];
+const moreNumbers = [-1, 0, ...numbers];
+
+console.log(moreNumbers); // prints [-1, 0, 1, 2, 3]
+```
+
+```js
+const numbers = [1, 2, 3];
+const moreNumbers = [-1, 0, numbers[0], numbers[1], numbers[2]];
+
+console.log(moreNumbers); // prints [-1, 0, 1, 2, 3]
+```
+
+</Step>
+
+<Step>
+
+```diff 2[29:38] subtitle="Spread numbers into moreNumbers"
+```
+
+```diff 2[29:62] subtitle="Manually spread numbers into moreNumbers"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js
+const numbers = [1, 2, 3];
+const numbersClone = [...numbers];
+
+console.log(numbersClone); // prints [1, 2, 3]
+```
+
+```js
+const numbers = [1, 2, 3];
+const numbersClone = [numbers[0], numbers[1], numbers[2]];
+
+console.log(numbersClone); // prints [1, 2, 3]
+```
+
+</Step>
+
+<Step>
+
+```diff 2[23:32] subtitle="Spread numbers into numbersClone"
+```
+
+```diff 2[23:56] subtitle="Manually spread numbers into numbersClone"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

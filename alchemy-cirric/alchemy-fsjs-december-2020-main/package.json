@@ -1,0 +1,29 @@
+{
+  "name": "alchemy-fsjs-december-2020",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "code-surfer": "^3.1.1",
+    "mdx-deck": "^4.1.1",
+    "react-async-script-loader": "^0.3.0",
+    "react-runkit": "^0.9.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alchemycodelab/code-401-javascript-guide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alchemycodelab/code-401-javascript-guide/issues"
+  },
+  "homepage": "https://github.com/alchemycodelab/code-401-javascript-guide#readme",
+  "dependencies": {
+    "superagent": "^6.1.0"
+  }
+}

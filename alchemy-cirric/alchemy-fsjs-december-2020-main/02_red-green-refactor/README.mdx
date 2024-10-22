@@ -1,0 +1,456 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, shadesOfPurple } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.code,
+  ...themes.prism
+}
+
+# Red, Green, Refactor
+
+---
+
+![doing sotfware development](https://alchemycodelab.s3.us-west-2.amazonaws.com/doingSoftwareDevelopment.jpg)
+
+---
+
+<Invert>
+
+<Box p={100}>
+
+## Red-Green-refactor: A TDD testing approach
+
+> Make it run, make it right
+
+</Box>
+
+</Invert>
+
+---
+
+<Box p={100}>
+
+<Steps>
+
+1. **Think** about what want to happen?
+2. **Red** create a test for that behavior
+3. **Green** write code to make the test pass
+4. **Refactor** improve the code
+
+</Steps>
+
+</Box>
+
+---
+
+<Box p={100}>
+
+## Red-Green-Refactor in practice
+
+Let's write some code that let's us find an item by id.
+
+</Box>
+
+---
+
+<CodeSurferColumns themes={[github, shadesOfPurple]}>
+
+<Step>
+
+```js showNumbers title="Tests"
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    
+  });
+});
+```
+
+```js showNumbers title="Implementation"
+module.exports = {};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="create an array of items"
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+  });
+});
+```
+
+```diff showNumbers title="Implementation"
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="find apple by its id"
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+  });
+});
+```
+
+```diff showNumbers title="Implementation"
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="tests are red!"
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="quick implementation"
+function findById(items, id) {
+
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="scafolded out the implementation and imported it"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+  });
+});
+```
+
+```js showNumbers title="Implementation"
+function findById(items, id) {
+
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="create our expectation. Red!"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation"
+function findById(items, id) {
+
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="Find a quick solution to get our tests to pass"
+function findById(items, id) {
+  for(let i = 0; i < items.length; i++) {
+    const item = items[i];
+
+    if(item.id === id) {
+      return item;
+    }
+  }
+
+  return null;
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="Green!"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="Tests are green. We can refactor now."
+function findById(items, id) {
+  for(let i = 0; i < items.length; i++) {
+    const item = items[i];
+
+    if(item.id === id) {
+      return item;
+    }
+  }
+
+  return null;
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="if our refactor is successful the tests stay green"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="we like arrow functions"
+const findById = (items, id) => {
+  for(let i = 0; i < items.length; i++) {
+    const item = items[i];
+
+    if(item.id === id) {
+      return item;
+    }
+  }
+
+  return null;
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="if our refactor is successful the tests stay green"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="array methods are more idiomatic. let's use find"
+const findById = (items, id) => {
+  const foundItem = items.find(item => item.id === id);
+  return foundItem;
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="if our refactor is successful the tests stay green"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="we don't really need to store foundItem. let's return the result of find"
+const findById = (items, id) => {
+  return items.find(item => item.id === id);
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="if our refactor is successful the tests stay green"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="array methods are more idiomatic. let's use find"
+const findById = (items, id) => {
+  const foundItem = items.find(item => item.id === id);
+  return foundItem;
+}
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+<Step>
+
+```js showNumbers title="Tests" subtitle="if our refactor is successful the tests stay green"
+const { findById } = require('./utils');
+
+describe('util functions', () => {
+  it('finds an item in an array by id', () => {
+    const fruits = [
+      { id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' },
+      { id: 'pear', price: 2, displayName: 'Pear', image: 'pear.png' },
+      { id: 'banana', price: 8, displayName: 'Banana', image: 'banana.png' },
+    ];
+
+    const apple = findById(fruits, 'apple');
+
+    expect(apple).toEqual({ id: 'apple', price: 5, displayName: 'Apple', image: 'apple.png' })
+  });
+});
+```
+
+```js showNumbers title="Implementation" subtitle="this function is so short now. let's make it a one liner"
+const findById = (items, id) => items.find(item => item.id === id);
+
+module.exports = {
+  findById
+};
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

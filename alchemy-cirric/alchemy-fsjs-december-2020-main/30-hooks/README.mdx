@@ -1,0 +1,484 @@
+import { themes } from "mdx-deck";
+import { Box } from "theme-ui";
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer";
+import { github, vsDark } from "@code-surfer/themes";
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism,
+};
+
+# React Hooks
+
+---
+
+import MyComponent from "../components/MyHookComponent.js";
+
+<CodeSurferColumns sizes={[2, 1, 2]} themes={[github, vsDark]}>
+
+<Step title="React Hooks">
+
+<Box p={100}>
+
+React hooks allow creating and managing state in a **functional** component.
+
+</Box>
+
+<MyComponent />
+
+```jsx showNumbers
+import React, { useState } from "react";
+
+const MyComponent = () => {
+  const [text, setText] = useState("");
+  const [count, setCount] = useState(0);
+
+  const handleChange = ({ target }) => setText(target.value);
+  const increment = () => setCount((prevCount) => prevCount + 1);
+
+  return (
+    <>
+      <h1>{text}</h1>
+      <input type="text" value={text} onChange={handleChange} />
+      <button onClick={increment}>Increment - {count}</button>
+    </>
+  );
+};
+```
+
+</Step>
+
+<Step title="React Hooks">
+
+<Box p={100}>
+  
+React hooks allow creating and managing state in a **functional** component.
+
+Hooks are JavaScript functions, but they impose additional rules:
+
+</Box>
+
+<MyComponent />
+
+```diff 4,5
+
+```
+
+</Step>
+
+<Step title="React Hooks">
+
+<Box p={100}>
+  
+React hooks allow creating and managing state in a **functional** component.
+
+Hooks are JavaScript functions, but they impose additional rules:
+
+- Hooks must be named with a `use` prefix (i.e. `useFishingPole`)
+
+</Box>
+
+<MyComponent />
+
+```diff 1[17:19],4[27:29],5[29:31]
+
+```
+
+</Step>
+
+<Step title="React Hooks">
+
+<Box p={100}>
+  
+React hooks allow creating and managing state in a **functional** component.
+
+Hooks are JavaScript functions, but they impose additional rules:
+
+- Hooks must be named with a `use` prefix (i.e. `useFishingPole`)
+- Only call Hooks at the top level. Don’t call Hooks inside loops,
+  conditions, or nested functions.
+
+</Box>
+
+<MyComponent />
+
+```diff 4,5
+
+```
+
+</Step>
+
+<Step title="React Hooks">
+
+<Box p={100}>
+  
+React hooks allow creating and managing state in a **functional** component.
+
+Hooks are JavaScript functions, but they impose additional rules:
+
+- Hooks must be named with a `use` prefix (i.e. `useFishingPole`)
+- Only call Hooks at the top level. Don’t call Hooks inside loops,
+  conditions, or nested functions.
+- Only call Hooks from React function components. Don’t call Hooks
+  from regular JavaScript functions. (There is just one other valid
+  place to call Hooks — your own custom Hooks. We’ll learn about
+  them in a moment.)
+
+</Box>
+
+<MyComponent />
+
+```diff
+
+```
+
+</Step>
+
+<Step title="React Hooks - useState">
+
+<Box p={100}>
+
+## useState
+
+`useState` creates react state (like the state that we create in
+a class component) inside a functional component.
+
+</Box>
+
+<MyComponent />
+
+```diff 4,5
+
+```
+
+</Step>
+
+<Step title="React Hooks - useState">
+
+<Box p={100}>
+
+## useState
+
+`useState` creates react state (like the state that we create in
+a class component) inside a functional component.
+
+</Box>
+
+<MyComponent />
+
+```diff 4[9:23],5[9:23] subtitle="descructured array"
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```jsx showNumbers
+import React, { Component } from "react";
+
+export default class MyComp extends Component {
+  state = {
+    count: 0,
+    text: "",
+  };
+
+  handleChange = ({ target }) => {
+    this.setState({ input: target.value });
+  };
+
+  increment = () => {
+    this.setState((state) => ({ count: state.count + 1 }));
+  };
+
+  render() {
+    return (
+      <>
+        <h1>{this.state.text}</h1>
+        <input
+          type="text"
+          value={this.state.text}
+          onChange={this.handleChange}
+        />
+        <button onClick={this.increment}>Increment - {this.state.count}</button>
+      </>
+    );
+  }
+}
+```
+
+```jsx showNumbers
+import React, { useState } from "react";
+
+const MyComponent = () => {
+  const [text, setText] = useState("");
+  const [count, setCount] = useState(0);
+
+  const handleChange = ({ target }) => setText(target.value);
+  const increment = () => setCount((prevCount) => prevCount + 1);
+
+  return (
+    <>
+      <h1>{text}</h1>
+      <input type="text" value={text} onChange={handleChange} />
+      <button onClick={increment}>Increment - {count}</button>
+    </>
+  );
+};
+```
+
+</Step>
+
+<Step title="Initialize State">
+
+```diff 4:7
+
+```
+
+```diff 4,5
+
+```
+
+</Step>
+
+<Step title="Independent State Change">
+
+```diff 9:11
+
+```
+
+```diff 7
+
+```
+
+</Step>
+
+<Step title="Dependent State Change">
+
+```diff 13:15
+
+```
+
+```diff 8
+
+```
+
+</Step>
+
+<Step title="Dependent State Change" subtitle="Note both setState and setCount take an arrow function">
+
+```diff 14[19:55]
+
+```
+
+```diff 8[36:61]
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` allows us to perform side effects (changes that don't depend
+on what is passed to our component). This is useful for making API calls.
+
+</Box>
+
+```js showNumbers 7:10
+import React, { useState, useEffect } from "react";
+import { getCharacters } from "../services/characterApi.js";
+
+export default function MyComp({ page, title }) {
+  const [characters, setCharacters] = useState([]);
+
+  useEffect(() => {
+    getCharacters(page).then((newCharacters) => setCharacters(newCharacters));
+  }, []);
+
+  return (
+    <>
+      <h1>{title}</h1>
+      <ul>
+        {characters.map((character) => (
+          <li key={character._id}>
+            <p>{character.name}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+Any time we want to change state programatically (not based on user interaction)
+we need a `useEffect`.
+
+For example, here we are changing state by fetching from an API.
+
+</Box>
+
+```diff 9[30:57]
+
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` takes a callback function which will always be invoked when the component first mounts.
+
+</Box>
+
+```diff 7[13:19],8,9,10[1:3]
+
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` takes a callback function which will always be invoked when the component first mounts.
+
+Additionally, the `useEffect` callback will be invoked at three other times depending on the second
+argument passed to `useEffect`:
+
+</Box>
+
+```diff 10[6,7]
+
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` takes a callback function which will always be invoked when the component first mounts.
+
+Additionally, the `useEffect` callback will be invoked at three other times depending on the second
+argument passed to `useEffect`:
+
+1. If an empty array (`[]`) is passed `useEffect`'s callback will only be invoked once, on mount.
+
+</Box>
+
+```diff 10[6,7]
+
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` takes a callback function which will always be invoked when the component first mounts.
+
+Additionally, the `useEffect` callback will be invoked at three other times depending on the second
+argument passed to `useEffect`:
+
+1. If an empty array (`[]`) is passed, `useEffect`'s callback will only be invoked once, on mount.
+2. If nothing is passed, `useEffect`'s callback will be invoked on every rerender.
+
+</Box>
+
+```jsx showNumbers 10[3,4]
+import React, { useState, useEffect } from "react";
+import { getCharacters } from "../services/characterApi.js";
+
+export default function MyComp({ page, title }) {
+  const [characters, setCharacters] = useState([]);
+
+  useEffect(() => {
+    getCharacters(page).then((newCharacters) => setCharacters(newCharacters));
+  });
+
+  return (
+    <>
+      <h1>{title}</h1>
+      <ul>
+        {characters.map((character) => (
+          <li key={character._id}>
+            <p>{character.name}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+</Step>
+
+<Step>
+
+<Box p={100}>
+
+`useEffect` takes a callback function which will always be invoked when the component first mounts.
+
+Additionally, the `useEffect` callback will be invoked at three other times depending on the second
+argument passed to `useEffect`:
+
+1. If an empty array (`[]`) is passed, `useEffect`'s callback will only be invoked once, on mount.
+2. If nothing is passed, `useEffect`'s callback will be invoked on every rerender.
+3. If an array with value (`[page]`) is passed, `useEffects`'s callback will be invoked on mount and
+   every time one of those values change.
+
+</Box>
+
+```jsx showNumbers 10[6:11]
+import React, { useState, useEffect } from "react";
+import { getCharacters } from "../services/characterApi.js";
+
+export default function MyComp({ page, title }) {
+  const [characters, setCharacters] = useState([]);
+
+  useEffect(() => {
+    getCharacters(page).then((newCharacters) => setCharacters(newCharacters));
+  }, [page]);
+
+  return (
+    <>
+      <h1>{title}</h1>
+      <ul>
+        {characters.map((character) => (
+          <li key={character._id}>
+            <p>{character.name}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---

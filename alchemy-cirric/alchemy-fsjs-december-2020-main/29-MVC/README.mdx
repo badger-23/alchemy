@@ -1,0 +1,268 @@
+import { themes } from "mdx-deck";
+import { Box } from "theme-ui";
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer";
+import { github, vsDark } from "@code-surfer/themes";
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism,
+};
+
+# Model-View-Controller/Presenter
+
+## Layered Architecture and Seperation of Concerns
+
+---
+
+## Why seperate concerns?
+
+- easire to write
+- easier to maintain
+- easier to test
+- easier to reuse
+
+---
+
+<Box p={100}>
+
+## Layered Architecture
+
+Layered architecture gives us a place for all of our code taking away some of the organizational
+cogitive load.
+
+It makes writing code easier because each piece of code has limited responsibility. As a developer
+we only need to keep this limited responsibility in mind while developing.
+
+</Box>
+
+---
+
+<Box p={100}>
+
+## Model
+
+Models manage our data. They are responsible for the shape of our data and retrieving that
+data from a data store.
+
+In our react applications models handle calling our back-end APIs to handle CRUD transactions.
+
+</Box>
+
+---
+
+<Box p={100}>
+
+## View
+
+Views are responsible for presenting data. In our react application the
+view is made up of presentational (functional) components.
+
+</Box>
+
+---
+
+<Box p={100}>
+
+## Controller
+
+Controllers take user interaction and decide how to handle the interaction. Controllers
+are the orchestrates of our react applications and are made up container (class) components.
+
+</Box>
+
+---
+
+<Box p={100}>
+
+## Controller and Presenter (MVC or MVP)
+
+</Box>
+
+---
+
+<Box p={100}>
+
+![MVC](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/MVC-Process.svg/800px-MVC-Process.svg.png)
+
+</Box>
+
+---
+
+<Box p={100}>
+
+![MVP](https://miro.medium.com/max/2544/1*W6m93rWE1JVZafSy5U5wDQ.png)
+
+</Box>
+
+---
+
+<Box p={100}>
+
+![MVC vs MVP](https://davidguerrerodiaz.files.wordpress.com/2015/10/18289.jpg)
+
+</Box>
+
+---
+
+<CodeSurferColumns themes={[vsDark, vsDark, github, vsDark]}>
+
+<Step>
+
+<Box>
+
+![MVP](https://miro.medium.com/max/2544/1*W6m93rWE1JVZafSy5U5wDQ.png)
+
+</Box>
+
+```js showNumbers title="Model"
+export const create = (dog) => {
+  return fetch("http://localhost:7890/api/v1/dogs", {
+    method: "POST",
+    body: JSON.stringify(dog),
+  }).then((res) => res.json());
+};
+
+export const findById = (id) => {
+  return fetch(`http://localhost:7890/api/v1/dogs/${id}`).then((res) =>
+    res.json()
+  );
+};
+
+export const find = () => {
+  return fetch(`http://localhost:7890/api/v1/dogs`).then((res) => res.json());
+};
+
+export const findByIdAndUpdate = (id, updatedDog) => {
+  return fetch(`http://localhost:7890/api/v1/dogs/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(updatedDog),
+  }).then((res) => res.json());
+};
+
+export const findByIdAndDelete = (id) => {
+  return fetch(`http://localhost:7890/api/v1/dogs/${id}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
+};
+```
+
+```js showNumbers title="Controller/Presenter"
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import * as Dog from "../services/Dog";
+import DogDetails from "../components/dog/DogDetails";
+
+export default class DogDetailsById extends Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+  };
+
+  state = {
+    dog: null,
+  };
+
+  fetchDog = () => {
+    return Dog.findById(this.props.id).then((dog) => this.setState({ dog }));
+  };
+
+  deleteDog = () => {
+    return Dog.findByIdAndDelete(this.props.id).then(() =>
+      this.history.push("/")
+    );
+  };
+
+  componentDidMount() {
+    this.fetchDog();
+  }
+
+  render() {
+    const { dog } = this.state;
+
+    if (!dog) return <h1>Loading</h1>;
+    return <DogDetails {...dog} onDelete={this.deleteDog} />;
+  }
+}
+```
+
+```js showNumbers title="View"
+import React from "react";
+import PropTypes from "prop-types";
+
+const DogDetails = ({ name, age, weight, onDelete }) => (
+  <dl>
+    <dt>Name</dt>
+    <dd>{name}</dd>
+
+    <dt>Age</dt>
+    <dd>{age}</dd>
+
+    <dt>Name</dt>
+    <dd>{weight || "unknown"}</dd>
+
+    <button onClick={onDelete}>Delete</button>
+  </dl>
+);
+
+DogDetails.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  weight: PropTypes.string,
+  onDelete: PropTypes.func.isRequired,
+};
+
+export default DogDetails;
+```
+
+</Step>
+
+<Step title="Loading and Displaying">
+
+<Box>
+
+![MVP](https://miro.medium.com/max/2544/1*W6m93rWE1JVZafSy5U5wDQ.png)
+
+</Box>
+
+```diff 10:11 title="Model" subtitle="Retrives the dog data"
+
+```
+
+```diff 16:18,36 title="Controller/Presenter" subtitle="Asks the model for the dog data and gives that data to the view"
+
+```
+
+```diff 5:16 title="View" subtitle="Displays the dog data"
+
+```
+
+</Step>
+
+<Step title="Handling user interaction">
+
+<Box>
+
+![MVP](https://miro.medium.com/max/2544/1*W6m93rWE1JVZafSy5U5wDQ.png)
+
+</Box>
+
+```diff 29:32 title="Model" subtitle="Deletes the item"
+
+```
+
+```diff 36[28:52],22:24 title="Controller/Presenter" subtitle="Handles the interaction and asks the model to delete the item"
+
+```
+
+```diff 4[42:49],15 title="View" subtitle="A user interacts with the view by clicking the delete button"
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+![MVP](https://miro.medium.com/max/2544/1*W6m93rWE1JVZafSy5U5wDQ.png)
+
+---

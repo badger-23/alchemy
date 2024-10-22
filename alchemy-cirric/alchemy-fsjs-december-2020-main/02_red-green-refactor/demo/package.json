@@ -1,0 +1,17 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "* big-o   * constant time (print)   * log time (binary search)   * quadratic/polynomial (match making)   * exponential (pizza toping combinations) * red-green-refactor   * `findDefinitionByWord`     * use for loop     * use find     * binary search   * `calculate(method, a, b)`   * hex to RGB   * RGB to hex   * `fetchCharacters`",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "npm run test -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.3"
+  }
+}

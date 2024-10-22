@@ -1,0 +1,308 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, duotoneLight } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# PostgreSQL Model Relationships
+## many-to-many
+
+---
+
+<Box p={250}>
+
+## Many to Many
+
+many rows in one table are related to many rows in another table
+
+<Steps>
+
+* tags to tweets
+* authors to books
+
+</Steps>
+
+</Box>
+
+---
+
+## Junction
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+---
+
+## Junction Table
+
+![junction table](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction-table.png)
+
+---
+
+## Junction
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+---
+
+<CodeSurferColumns themes={[duotoneLight, github]}>
+
+<Step>
+
+<Box p={50}>
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+</Box>
+
+```sql showNumbers title="Many To Many table definitions"
+CREATE TABLE tweets (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  text VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE tags (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL
+);
+```
+
+</Step>
+
+<Step>
+
+<Box p={50}>
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+</Box>
+
+```sql showNumbers title="Many To Many table definitions" subject="junction table"
+CREATE TABLE tweets (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  text VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE tags (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL
+);
+
+CREATE TABLE tweets_tags (
+  tweet_id BIGINT REFERENCES tweets(id),
+  tag_id BIGINT REFERENCES tags(id),
+  PRIMARY KEY (tweet_id, tag_id)
+);
+```
+
+</Step>
+
+<Step>
+
+<Box p={50}>
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+</Box>
+
+```diff 1,6 showNumbers title="Many To Many table definitions" subtitle="create two tables"
+```
+
+</Step>
+
+<Step>
+
+<Box p={50}>
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+</Box>
+
+```diff 11:15 showNumbers title="Many To Many table definitions" subtitle="create a junction table"
+```
+
+</Step>
+
+<Step>
+
+<Box p={50}>
+
+![junction](https://alchemycodelab.s3-us-west-2.amazonaws.com/junction.png)
+
+</Box>
+
+```diff 12:13 showNumbers title="Many To Many table definitions" subtitle="the junction table references the other tables"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurfer theme={github}>
+
+```sql showNumbers title="Many To Many table INSERT values"
+INSERT INTO tags (title) VALUES ('pdx');
+INSERT INTO tags (title) VALUES ('portland');
+INSERT INTO tags (title) VALUES ('pdxtech');
+INSERT INTO tags (title) VALUES ('pdxfoodie');
+INSERT INTO tags (title) VALUES ('pdxgraffiti');
+
+INSERT INTO tweets (text) VALUES ('raining...again');
+INSERT INTO tweets (text) VALUES ('heading to the react meetup');
+INSERT INTO tweets (text) VALUES ('best food ever');
+INSERT INTO tweets (text) VALUES ('art');
+INSERT INTO tweets (text) VALUES ('next.js conf in a few days!');
+INSERT INTO tweets (text) VALUES ('sceendoor good as always');
+INSERT INTO tweets (text) VALUES ('baes yum!');
+```
+```sql showNumbers title="Many To Many table INSERT values" subtitle="junction table inserts"
+INSERT INTO tags (title) VALUES ('pdx');
+INSERT INTO tags (title) VALUES ('portland');
+INSERT INTO tags (title) VALUES ('pdxtech');
+INSERT INTO tags (title) VALUES ('pdxfoodie');
+INSERT INTO tags (title) VALUES ('pdxgraffiti');
+
+INSERT INTO tweets (text) VALUES ('raining...again');
+INSERT INTO tweets (text) VALUES ('heading to the react meetup');
+INSERT INTO tweets (text) VALUES ('best food ever');
+INSERT INTO tweets (text) VALUES ('art');
+INSERT INTO tweets (text) VALUES ('next.js conf in a few days!');
+INSERT INTO tweets (text) VALUES ('sceendoor good as always');
+INSERT INTO tweets (text) VALUES ('baes yum!');
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (1, 1);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (1, 2);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (2, 1);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (2, 2);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (2, 3);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (3, 1);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (3, 4);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (4, 5);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (5, 1);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (5, 3);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (6, 4);
+
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (7, 1);
+INSERT INTO tweets_tags (tweet_id, tag_id) VALUES (7, 4);
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[github, duotoneLight]}>
+
+<Step>
+
+```sql showNumbers title="Many To Many table SELECT values"
+SELECT 
+	tweets.*,
+	array_to_json(array_agg(tags.title)) AS tags
+FROM
+	tweets
+JOIN tweets_tags
+ON tweets.id = tweets_tags.tweet_id
+JOIN tags
+ON tweets_tags.tag_id = tags.id
+WHERE tweets.id = 2
+GROUP BY tweets.id
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 1,4,5 showNumbers title="Many To Many table SELECT values" subtitle="SELECT FROM the a side"
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 6,7 showNumbers title="Many To Many table SELECT values" subtitle="JOIN to the junction table"
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 8,9 showNumbers title="One To Many table SELECT values" subtitle="JOIN the junction table to the other side of the relationship"
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 11 showNumbers title="Many To Many table SELECT values" subtitle="GROUP BY the main sides id"
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 3 showNumbers title="Many To Many table SELECT values" subtitle="gather all rows from the other side into an array"
+```
+
+<Box>
+
+id | title | tags
+-- | ----- | -----
+2	| "heading to the react meetup" | ["pdx", "portland", "pdxtech"]
+
+</Box>
+
+</Step>
+
+</CodeSurferColumns>
+
+---

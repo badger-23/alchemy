@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RickAndMorty Containers RickAndMortyDetail renders a single character on the page 1`] = `
+<figure
+  aria-label="character"
+  class="character"
+>
+  <img
+    alt="Rick Sanchez"
+    class="characterImage"
+    src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+  />
+  <figcaption>
+    <h3>
+      Rick Sanchez
+    </h3>
+    <p>
+      Human
+    </p>
+    <p>
+      Status: 
+      Alive
+    </p>
+    <p>
+      Origin: 
+      Earth (C-137)
+    </p>
+    <p>
+      Current Location: 
+      Earth (Replacement Dimension)
+    </p>
+  </figcaption>
+</figure>
+`;
+
+exports[`RickAndMorty Containers RickAndMortyList renders a list of characters on the page 1`] = `
+<div>
+  <button
+    aria-label="Go to previous page"
+    disabled=""
+  >
+    &lt;
+  </button>
+   
+  1
+   / 
+  34
+   
+  <button
+    aria-label="Go to next page"
+  >
+    &gt;
+  </button>
+  <ul
+    aria-label="characters"
+  >
+    <li>
+      <a
+        href="/1"
+      >
+        <figure
+          class="character"
+        >
+          <img
+            alt="Rick Sanchez"
+            class="characterImage"
+            src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+          />
+          <figcaption>
+            <h3>
+              Rick Sanchez
+            </h3>
+            <p>
+              Human
+            </p>
+            <p>
+              Status: 
+              Alive
+            </p>
+          </figcaption>
+        </figure>
+      </a>
+    </li>
+  </ul>
+</div>
+`;

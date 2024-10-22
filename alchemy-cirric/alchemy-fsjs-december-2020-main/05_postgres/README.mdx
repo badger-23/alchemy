@@ -1,0 +1,213 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, duotoneLight } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# PostgreSQL Review
+
+---
+
+## What we've been building
+
+![Layers](https://alchemycodelab.s3.us-west-2.amazonaws.com/Layers.png)
+
+---
+
+<CodeSurfer theme={github}>
+
+```sql showNumbers title="Creating Tables"
+CREATE TABLE dogs (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  name TEXT NOT NULL,
+  age INT CHECK (age > 0),
+  weight TEXT,
+  microchip_id TEXT UNIQUE
+);
+```
+
+```diff 1[1:12] showNumbers title="Creating Tables" subtitle="use CREATE TABLE"
+```
+
+```diff 1[14:17] showNumbers title="Creating Tables" subtitle="specify the name of the table you want to create (usually plural)"
+```
+
+```diff 2[3:4],3[3:6],4[3:5],5[3:8],6[3:14] showNumbers title="Creating Tables" subtitle="specify the names of your columns"
+```
+
+```diff 2[6:11],3[8:11],4[7:9],5[10:13],6[16:19] showNumbers title="Creating Tables" subtitle="and the types for each column"
+```
+
+```diff 2[6:11],3[8:11],4[7:9],5[10:13],6[16:19] showNumbers title="Creating Tables" subtitle="and the types for each column"
+```
+
+```diff 2[13:52],3[13:20],4[11:25],6[21:26] showNumbers title="Creating Tables" subtitle="next apply constraits"
+```
+
+```diff 2[13:52] showNumbers title="Creating Tables" subtitle="an identity column is the standard way to create a sequence (SERIAL). an auto incrementing number"
+```
+
+```diff 3[13:20] showNumbers title="Creating Tables" subtitle="NOT NULL makes it so the column must have a value"
+```
+
+```diff 4[11:25] showNumbers title="Creating Tables" subtitle="CHECK forces a column to follow some rule"
+```
+
+```diff 6[21:26] showNumbers title="Creating Tables" subtitle="UNIQUE forces the column to be unique across the table"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```sql title="Create"
+INSERT INTO dogs (name, age, weight) VALUES ('spot', 5, '20 lbs');
+```
+
+```diff 1[1:6] title="Create" subtitle="create new rows with INSERT"
+```
+
+```diff 1[13:16] title="Create" subtitle="specify the table to insert the row into"
+```
+
+```diff 1[19:35] title="Create" subtitle="specify the columns"
+```
+
+```diff 1[38:43,46:64] title="Create" subtitle="and the values"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```sql title="Read"
+SELECT
+  *
+FROM
+  dogs
+```
+
+```diff 1 title="Read" subtitle="use SELECT"
+```
+
+```diff 3:4 title="Read" subtitle="FROM a table"
+```
+
+```diff 2 title="Read" subtitle="indicate which fields you want"
+```
+
+```sql 2 title="Read" subtitle="just name"
+SELECT
+  name
+FROM
+  dogs
+```
+
+```sql 2 title="Read" subtitle="just age"
+SELECT
+  age
+FROM
+  dogs
+```
+
+```sql 2 title="Read" subtitle="just weight"
+SELECT
+  weight
+FROM
+  dogs
+```
+
+```sql 2 title="Read" subtitle="name and weight"
+SELECT
+  name, weight
+FROM
+  dogs
+```
+
+```sql 2 title="Read" subtitle="all"
+SELECT
+  *
+FROM
+  dogs
+```
+
+```sql 5:6 title="Read" subtitle="use WHERE to get a subset of rows"
+SELECT
+  *
+FROM
+  dogs
+WHERE
+  id=1
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```sql title="Update"
+UPDATE
+  dogs
+SET
+  name = 'rover'
+  age = 5
+WHERE
+  id = 1;
+```
+
+```diff 1 title="Update" subtitle="use UPDATE"
+```
+
+```diff 2 title="Update" subtitle="on a table"
+```
+
+```diff 3:5 title="Update" subtitle="SET columns"
+```
+
+```diff 6:7 title="Update" subtitle="specify a subset of rows with WHERE"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={duotoneLight}>
+
+```sql title="Delete"
+Delete FROM
+  dogs
+WHERE
+  id=1
+```
+
+```diff 1 title="Delete" subtitle="use DELETE FROM"
+```
+
+```diff 2 title="Delete" subtitle="with a table"
+```
+
+```diff 3,4 title="Delete" subtitle="specify a subset of rows with WHERE"
+```
+
+</CodeSurfer>
+
+---
+
+## Computer Internals
+
+<Steps>
+
+* **CPU** processes commands
+* **RAM** short-term storage
+* **Hard Drive** long-term storage
+
+</Steps>

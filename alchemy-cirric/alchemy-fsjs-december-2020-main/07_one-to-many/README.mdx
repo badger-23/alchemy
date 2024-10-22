@@ -1,0 +1,265 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, duotoneLight } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+<Box p={100}>
+
+# PostgreSQL Model Relationships
+
+## one-to-many
+
+</Box>
+
+---
+
+<Box p={250}>
+
+## One to One
+
+each row in one table is related to exactly one row in another table
+
+<Steps>
+
+* user to user profile
+* person to brain
+* finger to nail
+
+</Steps>
+
+</Box>
+
+---
+
+<Box p={250}>
+
+## One to Many
+
+each row in one table is related to many rows in another table
+
+<Steps>
+
+* parent to children
+* person to fingers
+* book to pages
+
+</Steps>
+
+</Box>
+
+---
+
+<Box p={250}>
+
+## Many to Many
+
+many rows in one table are related to many rows in another table
+
+<Steps>
+
+* tags to tweets
+* authors to books
+
+</Steps>
+
+</Box>
+
+---
+
+<CodeSurfer theme={github}>
+
+```sql showNumbers title="One To Many table definitions"
+CREATE TABLE books (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  title TEXT NOT NULL
+);
+
+CREATE TABLE book_pages (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  text TEXT NOT NULL,
+  book_id BIGINT REFERENCES books(id)
+);
+```
+
+```diff 1,6 showNumbers title="One To Many table definitions" subtitle="create two tables"
+```
+
+```diff 9 showNumbers title="One To Many table definitions" subtitle="the REFERENCES is held on the many side"
+```
+
+```diff 9 showNumbers title="One To Many table definitions" subtitle="the REFERENCES is held on the many side"
+```
+
+```diff 9 showNumbers title="One To Many table definitions" subtitle="the REFERENCES is held on the many side"
+```
+
+```diff 9 showNumbers title="One To Many table definitions" subtitle="REFERENCES creates a FOREIGN KEY constraint"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer theme={github}>
+
+```sql showNumbers title="One To Many table INSERT values"
+INSERT INTO books (title) VALUES ('Another Day');
+
+INSERT INTO book_pages (text, book_id) VALUES ('today', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('tommorw', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('never', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('yesterday', 1);
+```
+
+```sql showNumbers title="One To Many table INSERT values" subtitle="FOREIGN KEY constraint will prevent this"
+INSERT INTO books (title) VALUES ('Another Day');
+
+INSERT INTO book_pages (text, book_id) VALUES ('today', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('tommorw', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('never', 1);
+INSERT INTO book_pages (text, book_id) VALUES ('yesterday', 1);
+
+INSERT INTO book_pages (text, book_id) VALUES ('oops', 2);
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[github, duotoneLight]}>
+
+<Step>
+
+```sql showNumbers title="One To Many table SELECT values"
+SELECT
+	books.*,
+	array_to_json(array_agg(book_pages.*)) AS pages
+FROM
+	books
+JOIN book_pages
+	ON books.id = book_pages.book_id
+GROUP BY books.id;
+```
+
+<Box>
+
+id | title | pages
+-- | ----- | -----
+1	| "Another Day" |
+
+```json
+[
+  {"id":1,"text":"today","book_id":1},
+  {"id":2,"text":"tommorw","book_id":1},
+  {"id":3,"text":"never","book_id":1},
+  {"id":4,"text":"yesterday","book_id":1}
+]
+```
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 1,4,5 showNumbers title="One To Many table SELECT values" subtitle="SELECT FROM the one side"
+```
+
+<Box>
+
+id | title | pages
+-- | ----- | -----
+1	| "Another Day" |
+
+```json
+[
+  {"id":1,"text":"today","book_id":1},
+  {"id":2,"text":"tommorw","book_id":1},
+  {"id":3,"text":"never","book_id":1},
+  {"id":4,"text":"yesterday","book_id":1}
+]
+```
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 6,7 showNumbers title="One To Many table SELECT values" subtitle="JOIN to the many side"
+```
+
+<Box>
+
+id | title | pages
+-- | ----- | -----
+1	| "Another Day" |
+
+```json
+[
+  {"id":1,"text":"today","book_id":1},
+  {"id":2,"text":"tommorw","book_id":1},
+  {"id":3,"text":"never","book_id":1},
+  {"id":4,"text":"yesterday","book_id":1}
+]
+```
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 8 showNumbers title="One To Many table SELECT values" subtitle="GROUP BY the one sides id"
+```
+
+<Box>
+
+id | title | pages
+-- | ----- | -----
+1	| "Another Day" |
+
+```json
+[
+  {"id":1,"text":"today","book_id":1},
+  {"id":2,"text":"tommorw","book_id":1},
+  {"id":3,"text":"never","book_id":1},
+  {"id":4,"text":"yesterday","book_id":1}
+]
+```
+
+</Box>
+
+</Step>
+
+<Step>
+
+```diff 3 showNumbers title="One To Many table SELECT values" subtitle="gather all rows from the many side into an array"
+```
+
+<Box>
+
+id | title | pages
+-- | ----- | -----
+1	| "Another Day" |
+
+```json
+[
+  {"id":1,"text":"today","book_id":1},
+  {"id":2,"text":"tommorw","book_id":1},
+  {"id":3,"text":"never","book_id":1},
+  {"id":4,"text":"yesterday","book_id":1}
+]
+```
+
+</Box>
+
+</Step>
+
+</CodeSurferColumns>
+
+---

@@ -1,0 +1,774 @@
+import { themes, Steps,  Split } from 'mdx-deck'
+import { Box } from 'theme-ui'
+import { CodeSurfer, CodeSurferColumns, Step } from 'code-surfer'
+import { github, vsDark } from '@code-surfer/themes'
+
+export const theme = {
+  ...themes.future,
+  ...themes.prism
+}
+
+# Postgres Models 
+
+---
+
+## Layers
+
+![Layers](https://alchemycodelab.s3.us-west-2.amazonaws.com/Layers.png)
+
+---
+
+<CodeSurfer theme={vsDark}>
+
+```js showNumbers title="Implementation"
+const pool = require('../utils/pool');
+
+class Toy {
+  id;
+  name;
+  color;
+  shape
+
+  constructor(row) {
+    this.id = row.id;
+    this.name = row.name,
+    this.color = row.color;
+    this.shape = row.shape;
+  }
+
+  static async insert(toy) {
+    const { rows } = await pool.query(
+      'INSERT INTO toys (name, color, shape) VALUES ($1, $2, $3) RETURNING *',
+      [toy.name, toy.color, toy.shape]
+    );
+
+    return new Toy(rows[0]);
+  }
+
+  static async findById(id) {
+    const { rows } = await pool.query(
+      'SELECT * FROM toys WHERE id = $1',
+      [id]
+    );
+
+    if(!rows[0]) return null;
+    else return new Toy(rows[0]);
+  }
+
+  static async find() {
+    const { rows } = await pool.query(
+      'SELECT * FROM toys'
+    );
+
+    return rows.map(row => new Toy(row));
+  }
+
+  static async update(id, updatedToy) {
+    const { rows } = await pool.query(
+      `UPDATE toys
+        SET name=$1,
+            color=$2,
+            shape=$3
+        WHERE id=$4
+        RETURNING *
+      `,
+      [updatedToy.name, updatedToy.color, updatedToy.shape, id]
+    );
+
+    return new Toy(rows[0]);
+  }
+
+  static async delete(id) {
+    const { rows } = await pool.query(
+      'DELETE FROM toys WHERE id=$1 RETURNING *',
+      [id]
+    );
+
+    return new Toy(rows[0]);
+  }
+}
+
+module.exports = Toy;
+```
+
+```diff title="insert" 16:23
+```
+
+```diff title="findById" 25:33
+```
+
+```diff title="find" 35:41
+```
+
+```diff title="update" 43:56
+```
+
+```diff title="delete" 58:65
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurferColumns themes={[github, vsDark]}>
+
+<Step>
+
+```js showNumbers title="app.test.js"
+const fs = require('fs');
+const pool = require('../lib/utils/pool');
+const request = require('supertest');
+const app = require('../lib/app');
+const Toy = require('../lib/models/toy');
+
+describe('app routes', () => {
+  beforeEach(() => {
+    return pool.query(fs.readFileSync('./sql/setup.sql', 'utf-8'));
+  });
+
+  it('creates a toy via POST', async() => {
+    const response = await request(app)
+      .post('/api/v1/toys')
+      .send({
+        name: 'red circle',
+        color: 'red',
+        shape: 'circle'
+      });
+      
+    expect(response.body).toEqual({
+      id: expect.any(String),
+      name: 'red circle',
+      color: 'red',
+      shape: 'circle'
+    });
+  });
+
+  it('gets a toy by id via GET', async() => {
+    const toy = await Toy.insert({
+      name: 'red circle',
+      color: 'red',
+      shape: 'circle'
+    });
+
+    const response = await request(app)
+      .get(`/api/v1/toys/${toy.id}`);
+  
+    expect(response.body).toEqual(toy);
+  });
+
+  it('get all toys via GET', async() => {
+    const toy = await Promise.all([
+      {
+        name: 'red circle',
+        color: 'red',
+        shape: 'circle'
+      },
+      {
+        name: 'blue circle',
+        color: 'blue',
+        shape: 'circle'
+      },
+      {
+        name: 'red square',
+        color: 'red',
+        shape: 'square'
+      }
+    ].map(toy => Toy.insert(toy)));
+
+    const response = await request(app)
+      .get('/api/v1/toys');
+
+    expect(response.body).toEqual(expect.arrayContaining(toys));
+  });
+
+  it('updates a toy via PUT', async() => {
+    const toy = await Toy.insert({
+      name: 'red circle',
+      color: 'red',
+      shape: 'circle'
+    });
+
+    const response = await request(app)
+      .put(`/api/v1/toys/${toy.id}`)
+      .send({
+        name: 'red square',
+        color: 'red',
+        shape: 'square'
+      });
+
+    expect(response.body).toEqual({
+      id: toy.id,
+      name: 'red square',
+      color: 'red',
+      shape: 'square'
+    });
+  });
+
+  it('deletes a toy by id via DELETE', async() => {
+    const toy = await Toy.insert({
+      name: 'red circle',
+      color: 'red',
+      shape: 'circle'
+    });
+
+    const response = await request(app)
+      .delete(`/api/v1/toys/${toy.id}`);
+
+    expect(response.body).toEqual(toy);
+  });
+
+  afterAll(() => {
+    return pool.end();
+  });
+});
+```
+
+```js showNumbers title="app.js"
+const express = require('express');
+const Toy = require('./models/toy');
+const app = express();
+
+app.use(express.json());
+
+app.post('/api/v1/toys', (req, res, next) => {
+  Toy
+    .insert(req.body)
+    .then(toy => res.send(toy))
+    .catch(next);
+});
+
+app.get('/api/v1/toys/:id', (req, res, next) => {
+  Toy
+    .findById(req.params.id)
+    .then(toy => res.send(toy))
+    .catch(next);
+});
+
+app.get('/api/v1/toys', (req, res, next) => {
+  Toy
+    .find()
+    .then(toys => res.send(toys))
+    .catch(next);
+});
+
+app.put('/api/v1/toys/:id', (req, res, next) => {
+  Toy
+    .update(req.params.id, req.body)
+    .then(toy => res.send(toy))
+    .catch(next);
+});
+
+app.delete('/api/v1/toys/:id', (req, res, next) => {
+  Toy
+    .delete(req.params.id)
+    .then(toy => res.send(toy))
+    .catch(next);
+});
+
+app.use(require('./middleware/not-found'));
+app.use(require('./middleware/error'));
+
+module.exports = app;
+```
+
+</Step>
+
+<Step>
+
+```diff 1 title="app.test.js" subtitle="fs is a library we use to interact with our hard drive"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 1 title="app.test.js" subtitle="we'll use fs to read our setup.sql file"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 2 title="app.test.js" subtitle="pool is a utility to connect to a postgres database"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 3 title="app.test.js" subtitle="supertest (request) is a library we're using to make test requests to our back-end"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 3 title="app.test.js" subtitle="supertest mimics what a browser or postman does"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 8:10 title="app.test.js" subtitle="setup our postgres database"
+```
+
+```diff title="app.js"
+```
+
+</Step>
+
+<Step>
+
+```diff 12:27 title="app.test.js" subtitle="POST test"
+```
+
+```diff 7:12 title="app.js" subtitle="POST"
+```
+
+</Step>
+
+<Step>
+
+```diff 13:14 title="app.test.js" subtitle="make a POST request to our application"
+```
+
+```diff 7:12 title="app.js" subtitle="POST"
+```
+
+</Step>
+
+<Step>
+
+```diff 15:19 title="app.test.js" subtitle="send data as part of the request body"
+```
+
+```diff 9[13:20] title="app.js" subtitle="POST"
+```
+
+</Step>
+
+<Step>
+
+```diff 21:26 title="app.test.js" subtitle="expect the response body to equal a new Toy"
+```
+
+```diff 9[13:20] title="app.js" subtitle="POST"
+```
+
+</Step>
+
+<Step>
+
+```diff 12:27 title="app.test.js"
+```
+
+```diff 8 title="app.js" subtitle="use our Toy model"
+```
+
+</Step>
+
+<Step>
+
+```diff 12:27 title="app.test.js"
+```
+
+```diff 9 title="app.js" subtitle="insert a new toy based on the sent data"
+```
+
+</Step>
+
+<Step>
+
+```diff 12:27 title="app.test.js"
+```
+
+```diff 10 title="app.js" subtitle="after the insert completes send the toy as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 29:40 title="app.test.js" subtitle="Test GET by id"
+```
+
+```diff 14:19 title="app.js" subtitle="GET by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 30:34 title="app.test.js" subtitle="insert a toy so we have something to get"
+```
+
+```diff 14:19 title="app.js" subtitle="GET by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 36:37 title="app.test.js" subtitle="make a get request of our application"
+```
+
+```diff 14:19 title="app.js" subtitle="GET by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 39 title="app.test.js" subtitle="expect the response body to equal the toy we inserted earlier"
+```
+
+```diff 14:19 title="app.js" subtitle="GET by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 29:40 title="app.test.js" subtitle="Test GET by id"
+```
+
+```diff 14:19 title="app.js" subtitle="GET by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 29:40 title="app.test.js" subtitle="Test GET by id"
+```
+
+```diff 15 title="app.js" subtitle="use our Toy model"
+```
+
+</Step>
+
+<Step>
+
+```diff 29:40 title="app.test.js" subtitle="Test GET by id"
+```
+
+```diff 16 title="app.js" subtitle="find a toy by id, getting the id from the url path params"
+```
+
+</Step>
+
+<Step>
+
+```diff 29:40 title="app.test.js" subtitle="Test GET by id"
+```
+
+```diff 17 title="app.js" subtitle="send the found toy as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 42:65 title="app.test.js" subtitle="Test GET all"
+```
+
+```diff 21:26 title="app.js" subtitle="GET all"
+```
+
+</Step>
+
+<Step>
+
+```diff 43:59 title="app.test.js" subtitle="insert a few toys so we have something to get"
+```
+
+```diff 21:26 title="app.js" subtitle="GET all"
+```
+
+</Step>
+
+<Step>
+
+```diff 61:62 title="app.test.js" subtitle="make a get request of our application"
+```
+
+```diff 21:26 title="app.js" subtitle="GET all"
+```
+
+</Step>
+
+<Step>
+
+```diff 64 title="app.test.js" subtitle="expect the response body to equal the toys we inserted earlier"
+```
+
+```diff 21:26 title="app.js" subtitle="GET all"
+```
+
+</Step>
+
+<Step>
+
+```diff 42:65 title="app.test.js" subtitle="Test GET all"
+```
+
+```diff 21:26 title="app.js" subtitle="GET all"
+```
+
+</Step>
+
+<Step>
+
+```diff 42:65 title="app.test.js" subtitle="Test GET all"
+```
+
+```diff 22 title="app.js" subtitle="use our Toy model"
+```
+
+</Step>
+
+<Step>
+
+```diff 42:65 title="app.test.js" subtitle="Test GET all"
+```
+
+```diff 23 title="app.js" subtitle="find all toy"
+```
+
+</Step>
+
+<Step>
+
+```diff 42:65 title="app.test.js" subtitle="Test GET all"
+```
+
+```diff 24 title="app.js" subtitle="send the found toys as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 64[12:24] title="app.test.js" subtitle="we get the response body with response.body"
+```
+
+```diff 24[28:31] title="app.js" subtitle="send the found toys as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 68:72 title="app.test.js" subtitle="insert a toy so we have something to update"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 74:75 title="app.test.js" subtitle="make a put request of our application"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 76:80 title="app.test.js" subtitle="send an updated toy"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 64 title="app.test.js" subtitle="expect the response body to equal the updated toy"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 29 title="app.js" subtitle="use our Toy model"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 30 title="app.js" subtitle="update a toy using the id path param and the request body"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 31 title="app.js" subtitle="send the updated toys as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 67:88 title="app.test.js" subtitle="Test update by id"
+```
+
+```diff 28:33 title="app.js" subtitle="PUT by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 91:95 title="app.test.js" subtitle="insert a toy so we have something to delete"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 97:98 title="app.test.js" subtitle="make a delete request of our application"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 100 title="app.test.js" subtitle="expect the response body to equal the deleted toy"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 36 title="app.js" subtitle="use our Toy model"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 37 title="app.js" subtitle="delete a toy using the id path param"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 38 title="app.js" subtitle="send the deleted toys as a response"
+```
+
+</Step>
+
+<Step>
+
+```diff 90:101 title="app.test.js" subtitle="Test delete by id"
+```
+
+```diff 35:40 title="app.js" subtitle="DELETE by id"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+## Layers
+
+![Layers](https://alchemycodelab.s3.us-west-2.amazonaws.com/Layers.png)
+
+---

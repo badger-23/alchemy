@@ -1,0 +1,11 @@
+extends _layout.pug
+
+block styles
+  include css/home.css
+
+block content
+  form#start(action="/api/v1/espionages" method="POST")
+    input#meetingId(name="meetingId", placeholder="meeting id")
+    textarea#notify(name="notify", placeholder="notify")
+    input#duration(type="number", name="durationInSeconds", placeholder="duration in seconds")
+    button Start Spying

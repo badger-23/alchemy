@@ -1,0 +1,11 @@
+.Dog {
+  color: red;
+
+  dt {
+    color: blue;
+  }
+
+  dd {
+    color: yellow
+  }
+}

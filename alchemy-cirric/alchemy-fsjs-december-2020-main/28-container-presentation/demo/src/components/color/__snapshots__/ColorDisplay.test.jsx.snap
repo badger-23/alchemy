@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ColorDisplay component renders ColorDisplay 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="display"
+    style="color: rgb(0, 0, 255); background-color: rgb(255, 0, 0); height: 50rem;"
+  >
+    <p
+      style="font-size: 5rem;"
+    >
+      hello
+    </p>
+  </div>
+</DocumentFragment>
+`;
